@@ -1,1 +1,852 @@
 
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دپارتمان استعدادیابی | مؤسسه ترنج</title>
+    
+    <meta name="description" content="دپارتمان استعدادیابی مؤسسه ترنج؛ انجام تست‌های نئو، استرانگ، ریون و مشاوره تخصصی برای کشف مسیر تحصیلی و شغلی.">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <style>
+        /* ================== متغیرهای رنگی (لوکس و کلاسیک) ================== */
+        :root {
+            --bg-page: #FBFBF7;
+            --bg-surface: #F3F1EA;
+            --bg-deep: #072A25;
+            --primary: #077C6F;
+            --primary-light: #DAF3EE;
+            --primary-dark: #045148;
+            --accent: #D39E18;
+            --accent-light: #FCEED0;
+            --accent-dark: #A57A0D;
+            --gold: #E7BA3C;
+            --text-dark: #0B1F1C;
+            --text-muted: #4F615B;
+            --border-color: #E6E1D4;
+            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-organic-1: 40px 8px 40px 8px;
+            --radius-organic-2: 8px 40px 8px 40px;
+            --shadow-soft: 0 10px 40px rgba(7, 42, 37, 0.08);
+            --shadow-lux: 0 20px 60px rgba(7, 42, 37, 0.14);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
+        body { font-family: 'Vazirmatn', sans-serif; background-color: var(--bg-page); color: var(--text-dark); line-height: 1.8; overflow-x: hidden; }
+        body.loading { overflow: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: opacity, transform; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ================== پیش‌لودر حرفه‌ای ================== */
+        .preloader {
+            position: fixed; inset: 0; z-index: 9999;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+            will-change: opacity, visibility;
+        }
+        .preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .preloader-content { text-align: center; color: #fff; }
+        .preloader-rings { width: 90px; height: 90px; position: relative; margin: 0 auto 24px; }
+        .preloader-rings span {
+            position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--gold);
+            animation: preSpin 1.4s linear infinite;
+        }
+        .preloader-rings span:nth-child(2) { inset: 12px; border-top-color: #ffffff; animation: preSpin 1s linear infinite reverse; }
+        .preloader-rings span:nth-child(3) { inset: 24px; border-top-color: var(--accent); animation: preSpin 0.8s linear infinite; }
+        @keyframes preSpin { to { transform: rotate(360deg); } }
+        .preloader-brand { font-size: 1.35rem; font-weight: 900; letter-spacing: -0.3px; opacity: 0; transform: translateY(8px); animation: preFade 0.7s ease 0.15s forwards; }
+        .preloader-sub { font-size: 0.7rem; color: rgba(255,255,255,0.65); letter-spacing: 5px; margin-top: 6px; font-weight: 700; opacity: 0; transform: translateY(8px); animation: preFade 0.7s ease 0.3s forwards; }
+        @keyframes preFade { to { opacity: 1; transform: translateY(0); } }
+
+        /* ================== هدر سایت (مشترک) ================== */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(251, 251, 247, 0.92); backdrop-filter: blur(12px);
+            padding: 12px 0; transition: padding 0.4s ease, box-shadow 0.4s ease, border-bottom 0.4s ease; border-bottom: 1px solid transparent;
+            will-change: padding, box-shadow;
+        }
+        .header.scrolled { padding: 8px 0; border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 24px rgba(7, 42, 37, 0.05); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo { text-decoration: none; display: flex; align-items: center; gap: 12px; }
+        .logo-img-wrap {
+            width: 54px; height: 54px; border-radius: 14px 4px 14px 4px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-light) 100%);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; border: 1.5px solid var(--border-color); box-shadow: 0 4px 12px rgba(7, 124, 111, 0.12); flex-shrink: 0;
+        }
+        .logo-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .logo-fallback { display: none; align-items: center; justify-content: center; width: 100%; height: 100%; color: var(--primary); }
+        .logo-fallback svg { width: 32px; height: 32px; stroke: var(--primary); fill: none; stroke-width: 1.6; }
+        .logo-text { display: flex; flex-direction: column; line-height: 1.25; }
+        .logo-title { font-weight: 900; font-size: 1.15rem; color: var(--primary-dark); letter-spacing: -0.2px; }
+        .logo-sub { font-size: 0.72rem; font-weight: 700; color: var(--accent-dark); background: var(--accent-light); padding: 1px 8px; border-radius: 6px; width: fit-content; margin-top: 2px; letter-spacing: 0.3px; }
+        
+        .nav-links { display: flex; gap: 26px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 600; transition: var(--transition); position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; right: 0; width: 0; height: 2px; background: var(--accent); transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a:hover::after { width: 100%; }
+        .menu-btn { display: none; background: none; border: none; color: var(--text-dark); cursor: pointer; }
+
+        /* ================== دکمه‌ها ================== */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 13px 30px; font-weight: 700; text-decoration: none; border: none;
+            cursor: pointer; font-family: inherit; font-size: 1rem; transition: var(--transition);
+            position: relative; overflow: hidden; will-change: transform, box-shadow;
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border-radius: var(--radius-organic-1); box-shadow: 0 6px 20px rgba(7, 124, 111, 0.28); }
+        .btn-primary:hover { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); transform: translateY(-3px); border-radius: var(--radius-organic-2); box-shadow: 0 12px 32px rgba(7, 124, 111, 0.38); }
+        .btn-accent { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: #fff; border-radius: var(--radius-organic-2); box-shadow: 0 6px 20px rgba(211, 158, 24, 0.32); }
+        .btn-accent:hover { background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%); transform: translateY(-3px); border-radius: var(--radius-organic-1); box-shadow: 0 12px 32px rgba(211, 158, 24, 0.42); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); border-radius: var(--radius-organic-1); }
+        .btn-outline:hover { background: var(--primary-light); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(7, 124, 111, 0.15); }
+
+        /* ================== هدر اختصاصی مینیمال و خلوت ================== */
+        .page-header {
+            padding: 130px 0 30px; text-align: center; position: relative;
+            background: var(--bg-page);
+        }
+        .breadcrumb {
+            display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted);
+            background: #fff; padding: 6px 16px; border-radius: 20px; box-shadow: 0 4px 12px rgba(7, 42, 37, 0.04);
+            margin-bottom: 20px; font-weight: 600; border: 1px solid var(--border-color);
+        }
+        .breadcrumb a { color: var(--primary); text-decoration: none; transition: var(--transition); }
+        .breadcrumb a:hover { color: var(--accent); }
+        .breadcrumb svg { width: 14px; height: 14px; }
+        .page-title { font-size: 2.6rem; font-weight: 900; color: var(--text-dark); letter-spacing: -0.5px; margin: 0; }
+        .page-title span { color: var(--accent); }
+
+        /* ================== بخش ویدیو معرفی و فواید (متمایز) ================== */
+        .intro-section { padding: 30px 0 60px; }
+        .intro-container {
+            display: flex; gap: 50px; align-items: center; background: #fff;
+            padding: 40px; border-radius: var(--radius-organic-1);
+            box-shadow: var(--shadow-soft); border: 1.5px solid var(--border-color);
+            position: relative; overflow: hidden;
+        }
+        /* پس زمینه ملایم کادر */
+        .intro-container::before {
+            content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px;
+            background: radial-gradient(circle, rgba(7, 124, 111, 0.08), transparent 70%); border-radius: 50%;
+        }
+        
+        .intro-text { flex: 1.1; position: relative; z-index: 2; }
+        .intro-text-label { font-size: 0.9rem; font-weight: 800; color: var(--primary-dark); background: var(--primary-light); padding: 4px 12px; border-radius: 8px; display: inline-block; margin-bottom: 16px; }
+        .intro-text h2 { font-size: 2.1rem; font-weight: 900; color: var(--text-dark); margin-bottom: 20px; line-height: 1.35; letter-spacing: -0.5px; }
+        .intro-text p { font-size: 1.05rem; color: var(--text-muted); line-height: 1.9; margin-bottom: 30px; font-weight: 500; }
+        
+        /* لیست فواید */
+        .benefits-list { list-style: none; margin-bottom: 35px; }
+        .benefits-list li { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-weight: 600; color: var(--text-dark); }
+        .benefits-list li svg { width: 22px; height: 22px; color: var(--accent); flex-shrink: 0; }
+
+        .intro-video-wrapper { flex: 1; position: relative; z-index: 2; width: 100%; }
+        
+        /* کاور ویدیو */
+        .intro-video-box {
+            width: 100%; aspect-ratio: 16/10; border-radius: 24px; overflow: hidden; position: relative;
+            background: linear-gradient(135deg, var(--bg-deep), var(--primary-dark));
+            box-shadow: var(--shadow-lux); display: flex; align-items: center; justify-content: center;
+            border: 4px solid #fff; flex-direction: column; cursor: pointer; transition: var(--transition);
+        }
+        .intro-video-box:hover { transform: scale(1.02); }
+        .intro-video-box::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.6) 100%); pointer-events: none; z-index: 1; }
+        
+        .intro-play-btn {
+            width: 75px; height: 75px; border-radius: 50%; background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
+            border: none; display: flex; align-items: center; justify-content: center;
+            color: #0B2420; box-shadow: 0 8px 30px rgba(212, 175, 55, 0.55), inset 0 0 0 3px rgba(255, 255, 255, 0.2);
+            position: relative; z-index: 2; margin-bottom: 15px; pointer-events: none;
+        }
+        .intro-video-box:hover .intro-play-btn { transform: scale(1.1); box-shadow: 0 12px 40px rgba(212, 175, 55, 0.78), inset 0 0 0 3px rgba(255, 255, 255, 0.3); }
+        .intro-play-btn svg { width: 32px; height: 32px; fill: currentColor; margin-left: 4px; }
+        .intro-video-title { color: #fff; font-weight: 800; font-size: 1.1rem; z-index: 2; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+
+        /* ویدیوی واقعی (مخفی در ابتدا) */
+        .actual-video { display: none; width: 100%; height: 100%; object-fit: cover; background: #0B2420; position: absolute; inset: 0; z-index: 3; }
+        .actual-video.active { display: block; }
+
+        /* ================== معرفی تست‌های استعدادیابی ================== */
+        .tests-section { padding: 60px 0 80px; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2.2rem; font-weight: 900; color: var(--text-dark); letter-spacing: -0.5px; }
+        .section-header h2 span { color: var(--primary); }
+        .section-header p { color: var(--text-muted); font-size: 1.05rem; margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        .tests-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+
+        /* طراحی لوکس کارت‌های تست (همسان با درخواست قبلی) */
+        .test-card {
+            background: #fff; border-radius: 24px; overflow: hidden; border: 1.5px solid var(--border-color);
+            transition: var(--transition); display: flex; flex-direction: column; text-decoration: none !important;
+            box-shadow: 0 4px 15px rgba(7, 42, 37, 0.03); will-change: transform, box-shadow;
+        }
+        .test-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(7, 124, 111, 0.12); }
+        
+        /* کاورهای Mesh Gradient برای تست‌ها */
+        .test-cover {
+            height: 160px; position: relative; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; border-bottom: 2px solid rgba(255,255,255,0.5);
+        }
+        /* استایل اختصاصی هر تست */
+        .test-card:nth-child(1) .test-cover {
+            background-color: var(--primary);
+            background-image: radial-gradient(at 20% 20%, var(--primary-light) 0px, transparent 50%), radial-gradient(at 80% 80%, var(--primary-dark) 0px, transparent 50%);
+        }
+        .test-card:nth-child(2) .test-cover {
+            background-color: var(--accent);
+            background-image: radial-gradient(at 80% 20%, var(--accent-light) 0px, transparent 50%), radial-gradient(at 20% 80%, var(--accent-dark) 0px, transparent 50%);
+        }
+        .test-card:nth-child(3) .test-cover {
+            background-color: #4F615B;
+            background-image: radial-gradient(at 0% 50%, #879b94 0px, transparent 50%), radial-gradient(at 100% 50%, #2f3a36 0px, transparent 50%);
+        }
+        .test-card:nth-child(4) .test-cover {
+            background-color: var(--gold);
+            background-image: radial-gradient(at 50% 0%, #fff 0px, transparent 50%), radial-gradient(at 50% 100%, var(--accent-dark) 0px, transparent 50%);
+        }
+        
+        .test-icon-glass {
+            width: 70px; height: 70px; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 20px; display: flex; align-items: center; justify-content: center; 
+            color: #fff; box-shadow: 0 8px 24px rgba(0,0,0,0.1); position: relative; z-index: 2; transition: var(--transition);
+        }
+        .test-card:hover .test-icon-glass { transform: scale(1.1) rotate(-5deg); background: rgba(255, 255, 255, 0.4); }
+        .test-icon-glass svg { width: 36px; height: 36px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+        
+        .test-info { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+        .test-title { font-size: 1.25rem; font-weight: 900; color: var(--text-dark); margin-bottom: 10px; line-height: 1.4; transition: var(--transition); }
+        .test-card:hover .test-title { color: var(--primary); }
+        .test-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; flex: 1; }
+        
+        .test-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px dashed var(--border-color); padding-top: 16px; }
+        .test-footer span { font-size: 0.85rem; font-weight: 800; color: var(--accent-dark); display: flex; align-items: center; gap: 6px; }
+        .test-card:hover .test-footer span { color: var(--primary); }
+        .test-footer svg { transition: var(--transition); }
+        .test-card:hover .test-footer svg { transform: translateX(-4px); }
+
+        /* ================== کارگاه‌های استعدادیابی ================== */
+        .workshops-section { padding: 70px 0 100px; background: var(--bg-surface); }
+        .workshops-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        
+        .workshop-card {
+            background: #fff; border-radius: var(--radius-organic-2); overflow: hidden; border: 1.5px solid var(--border-color);
+            transition: var(--transition); display: flex; flex-direction: column; text-decoration: none !important;
+        }
+        .workshop-card:nth-child(even) { border-radius: var(--radius-organic-1); }
+        .workshop-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(211, 158, 24, 0.15); }
+        
+        .workshop-cover {
+            height: 200px; position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 15px; text-align: center; padding: 20px;
+            overflow: hidden; border-bottom: 3px solid rgba(255,255,255,0.3);
+        }
+        /* استایل کاور کارگاه‌ها */
+        .workshop-card:nth-child(1) .workshop-cover {
+            background-color: var(--primary);
+            background-image: radial-gradient(at 0% 0%, var(--accent) 0px, transparent 60%), radial-gradient(at 100% 100%, var(--primary-dark) 0px, transparent 50%);
+        }
+        .workshop-card:nth-child(2) .workshop-cover {
+            background-color: var(--primary-dark);
+            background-image: radial-gradient(at 100% 0%, #104A41 0px, transparent 60%), radial-gradient(at 0% 100%, var(--gold) 0px, transparent 60%);
+        }
+        .workshop-card:nth-child(3) .workshop-cover {
+            background-color: var(--accent-dark);
+            background-image: radial-gradient(at 0% 100%, var(--accent) 0px, transparent 60%), radial-gradient(at 100% 0%, var(--gold) 0px, transparent 60%);
+        }
+        
+        .workshop-cover-icon { 
+            width: 54px; height: 54px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 16px; display: flex; align-items: center; justify-content: center; 
+            color: #fff; box-shadow: 0 8px 24px rgba(0,0,0,0.15); position: relative; z-index: 2; transition: var(--transition);
+        }
+        .workshop-card:hover .workshop-cover-icon { transform: scale(1.1) rotate(5deg); background: rgba(255, 255, 255, 0.3); }
+        .workshop-cover-icon svg { width: 28px; height: 28px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+        
+        .workshop-cover-text { font-size: 1.25rem; font-weight: 900; color: #fff; position: relative; z-index: 2; text-shadow: 0 2px 6px rgba(0,0,0,0.3); line-height: 1.4; }
+        
+        .workshop-info { padding: 24px; text-decoration: none !important; }
+        .workshop-tag { display: inline-block; background: rgba(231, 186, 60, 0.15); color: var(--accent-dark); font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; margin-bottom: 12px; }
+        .workshop-title { font-size: 1.2rem; font-weight: 800; color: var(--text-dark); margin-bottom: 10px; line-height: 1.5; }
+        .workshop-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
+        
+        .workshop-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px dashed var(--border-color); }
+        .workshop-footer span { font-size: 0.85rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px; text-decoration: none !important; }
+        .workshop-footer svg { transition: var(--transition); }
+        .workshop-card:hover .workshop-footer svg { transform: translateX(-4px); }
+
+        /* ================== ریسپانسیو ================== */
+        @media (max-width: 992px) {
+            .nav-links {
+                position: fixed; top: 70px; right: -100%; width: 280px; height: calc(100vh - 70px);
+                background: var(--bg-page); flex-direction: column; align-items: flex-start;
+                padding: 40px 30px; transition: var(--transition); box-shadow: -10px 0 30px rgba(7, 42, 37, 0.08); gap: 20px;
+            }
+            .nav-links.active { right: 0; }
+            .menu-btn { display: block; }
+            .header-cta { display: none; }
+            #mobile-btn { display: block !important; }
+            
+            .intro-container { flex-direction: column; padding: 30px 20px; }
+            .intro-video-wrapper { width: 100%; }
+            .page-title { font-size: 2.2rem; }
+        }
+        @media (max-width: 560px) {
+            .intro-text h2 { font-size: 1.8rem; }
+            .section-header h2 { font-size: 1.8rem; }
+            .tests-grid { grid-template-columns: 1fr; }
+        }
+
+    </style>
+</head>
+<body class="loading">
+
+    <!-- پیش‌لودر -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-rings"><span></span><span></span><span></span></div>
+            <div class="preloader-brand">مؤسسه ترنج</div>
+            <div class="preloader-sub">دپارتمان استعدادیابی</div>
+        </div>
+    </div>
+
+    <!-- هدر -->
+    <header class="header" id="header">
+        <div class="container nav-container">
+            <a href="/" class="logo" aria-label="بازگشت به صفحه اصلی مؤسسه ترنج">
+                <div class="logo-img-wrap">
+                    <img src="#" alt="لوگوی مؤسسه ترنج" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span class="logo-fallback">
+                        <svg viewBox="0 0 24 24"><path d="M12 2c-1.5 3-4 4.5-6 5.5C4 8.5 3 10 3 12c0 3 2.5 5 5 5.5-1 2-2.5 3-3 4.5M12 2c1.5 3 4 4.5 6 5.5 2 1 3 2.5 3 4.5 0 3-2.5 5-5 5.5 1 2 2.5 3 3 4.5M12 2v20M9 12c0-2 1.5-3.5 3-3.5S15 10 15 12s-1.5 3.5-3 3.5S9 14 9 12z"/></svg>
+                    </span>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">مؤسسه ترنج</span>
+                    <span class="logo-sub">دپارتمان استعدادیابی</span>
+                </div>
+            </a>
+            
+            <nav class="nav-links" id="nav-links">
+                <a href="/#services">خدمات و دپارتمان‌ها</a>
+                <a href="/#director">درباره مسئول مؤسسه</a>
+                <a href="#contact">ارتباط با ما</a>
+                <button class="btn btn-primary" onclick="openModal()" style="display: none;" id="mobile-btn">رزرو نوبت</button>
+            </nav>
+
+            <button class="btn btn-primary header-cta" onclick="openModal()">رزرو وقت استعدادیابی</button>
+            
+            <button class="menu-btn" id="menu-btn" aria-label="منو">
+                <svg viewBox="0 0 24 24" class="icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- هدر اختصاصی و خلوت -->
+        <section class="page-header">
+            <div class="container reveal">
+                <div class="breadcrumb">
+                    <a href="/">صفحه اصلی</a>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span>دپارتمان‌ها</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span>استعدادیابی</span>
+                </div>
+                <h1 class="page-title">کشف توانمندی‌ها؛ <span>مسیر روشن فردا</span></h1>
+            </div>
+        </section>
+
+        <!-- بخش ویدیو معرفی و گرفتن وقت -->
+        <section class="intro-section">
+            <div class="container reveal">
+                <div class="intro-container">
+                    
+                    <!-- متن و دکمه ترغیب‌کننده -->
+                    <div class="intro-text">
+                        <span class="intro-text-label">چرا استعدادیابی اهمیت دارد؟</span>
+                        <h2>شناخت گوهر درون، اولین قدم برای موفقیت است</h2>
+                        <p>بسیاری از افراد سال‌ها در مسیرهای تحصیلی و شغلی اشتباه قدم برمی‌دارند، تنها به این دلیل که توانمندی‌های ذاتی خود را نمی‌شناسند. دپارتمان استعدادیابی ترنج با بهره‌گیری از آزمون‌های معتبر جهانی و تحلیل دقیق روان‌شناختی، شما را در انتخاب بهترین مسیر یاری می‌کند.</p>
+                        
+                        <ul class="benefits-list">
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> جلوگیری از هدر رفتن زمان و هزینه در مسیر اشتباه</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> انتخاب رشته تحصیلی و مسیر شغلی منطبق با رغبت‌ها</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> افزایش اعتماد به نفس با تمرکز بر نقاط قوت</li>
+                        </ul>
+                        
+                        <button class="btn btn-accent" onclick="openModal()" style="padding: 14px 35px; font-size: 1.05rem;">
+                            گرفتن وقت استعدادیابی
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                    </div>
+
+                    <!-- ویدیو گرافیکی -->
+                    <div class="intro-video-wrapper">
+                        <div class="intro-video-box" onclick="playIntroVideo()" id="videoCover">
+                            <button class="intro-play-btn" aria-label="پخش ویدیو">
+                                <svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"></polygon></svg>
+                            </button>
+                            <span class="intro-video-title">کلیپ معرفی استعدادیابی</span>
+                        </div>
+                        <video id="introVideo" class="actual-video" controls preload="metadata" playsinline poster="#">
+                            <!-- لینک ویدیو را اینجا قرار دهید (فعلا #) -->
+                            <source src="#" type="video/mp4">
+                            مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+                        </video>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- معرفی تست‌های استعدادیابی -->
+        <section class="tests-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>آزمون‌های استاندارد <span>روان‌شناختی</span></h2>
+                    <p>در مؤسسه ترنج از معتبرترین ابزارهای سنجش جهانی برای استخراج پروفایل دقیق شخصیتی و استعدادی شما استفاده می‌شود.</p>
+                </div>
+
+                <div class="tests-grid">
+                    <!-- تست 1: نئو -->
+                    <a href="javascript:void(0)" onclick="openModal()" class="test-card reveal">
+                        <div class="test-cover">
+                            <div class="test-icon-glass">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            </div>
+                        </div>
+                        <div class="test-info">
+                            <h3 class="test-title">تست شخصیت‌شناسی نئو (NEO)</h3>
+                            <p class="test-desc">ارزیابی دقیق ۵ عامل بزرگ شخصیت (روان‌رنجوری، برون‌گرایی، اشتیاق به تجارب تازه، توافق‌پذیری و وظیفه‌شناسی).</p>
+                            <div class="test-footer">
+                                <span>درخواست انجام تست <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- تست 2: استرانگ/هالند -->
+                    <a href="javascript:void(0)" onclick="openModal()" class="test-card reveal">
+                        <div class="test-cover">
+                            <div class="test-icon-glass">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </div>
+                        </div>
+                        <div class="test-info">
+                            <h3 class="test-title">رغبت‌سنج استرانگ / هالند</h3>
+                            <p class="test-desc">سنجش دقیق تمایلات و رغبت‌های شما در ۶ تیپ شخصیتی-شغلی برای انتخاب بهترین رشته تحصیلی و شغل.</p>
+                            <div class="test-footer">
+                                <span>درخواست انجام تست <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- تست 3: ریون -->
+                    <a href="javascript:void(0)" onclick="openModal()" class="test-card reveal">
+                        <div class="test-cover">
+                            <div class="test-icon-glass">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                            </div>
+                        </div>
+                        <div class="test-info">
+                            <h3 class="test-title">تست هوش تصویری ریون</h3>
+                            <p class="test-desc">یکی از معتبرترین آزمون‌های سنجش هوش سیال و توانایی استدلال منطقی و حل مسئله به صورت غیرکلامی.</p>
+                            <div class="test-footer">
+                                <span>درخواست انجام تست <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- تست 4: گاردنر -->
+                    <a href="javascript:void(0)" onclick="openModal()" class="test-card reveal">
+                        <div class="test-cover">
+                            <div class="test-icon-glass">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            </div>
+                        </div>
+                        <div class="test-info">
+                            <h3 class="test-title">هوش‌های چندگانه گاردنر</h3>
+                            <p class="test-desc">بررسی نقاط قوت ذهنی شما در ۸ بعد مختلف (کلامی، منطقی، فضایی، بدنی، موسیقایی، بین‌فردی و ...).</p>
+                            <div class="test-footer">
+                                <span>درخواست انجام تست <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- کارگاه‌های مرتبط استعدادیابی -->
+        <section class="workshops-section">
+            <div class="container">
+                <div class="section-header reveal" style="margin-bottom: 50px;">
+                    <h2>کارگاه‌های <span>توسعه فردی</span></h2>
+                    <p>دوره‌های آموزشی تخصصی طراحی شده برای شکوفایی استعدادها و هدف‌گذاری</p>
+                </div>
+
+                <div class="workshops-grid">
+                    <!-- کارگاه ۱ -->
+                    <a href="javascript:void(0)" class="workshop-card reveal">
+                        <div class="workshop-cover">
+                            <div class="workshop-cover-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </div>
+                            <span class="workshop-cover-text">کارگاه<br>هدف‌گذاری و مدیریت زمان</span>
+                        </div>
+                        <div class="workshop-info">
+                            <span class="workshop-tag">مهارت‌افزایی</span>
+                            <h3 class="workshop-title">دوره هدف‌گذاری و مدیریت زمان</h3>
+                            <p class="workshop-desc">چگونه اهداف متناسب با استعدادهایمان تعیین کنیم و با مدیریت صحیح زمان به آن‌ها دست یابیم.</p>
+                            <div class="workshop-footer">
+                                <span>ثبت‌نام و جزئیات <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- کارگاه ۲ -->
+                    <a href="javascript:void(0)" class="workshop-card reveal">
+                        <div class="workshop-cover">
+                            <div class="workshop-cover-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            </div>
+                            <span class="workshop-cover-text">کارگاه<br>ترسیم نقشه راه شغلی</span>
+                        </div>
+                        <div class="workshop-info">
+                            <span class="workshop-tag">توسعه مسیر شغلی</span>
+                            <h3 class="workshop-title">نقشه راه شغلی من</h3>
+                            <p class="workshop-desc">طراحی گام به گام مسیر شغلی آینده بر اساس نتایج تست‌های استعدادیابی و رغبت‌سنجی.</p>
+                            <div class="workshop-footer">
+                                <span>ثبت‌نام و جزئیات <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- کارگاه ۳ -->
+                    <a href="javascript:void(0)" class="workshop-card reveal">
+                        <div class="workshop-cover">
+                            <div class="workshop-cover-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10.06 10.06 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            </div>
+                            <span class="workshop-cover-text">کارگاه<br>مهارت‌های نرم در موفقیت</span>
+                        </div>
+                        <div class="workshop-info">
+                            <span class="workshop-tag">ارتباط مؤثر</span>
+                            <h3 class="workshop-title">مهارت‌های نرم (Soft Skills)</h3>
+                            <p class="workshop-desc">آموزش مهارت‌های ارتباطی، حل مسئله، تفکر نقادانه و کار تیمی که مکمل استعدادهای تخصصی هستند.</p>
+                            <div class="workshop-footer">
+                                <span>ثبت‌نام و جزئیات <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- فوتر با مجوزها (استایل‌های مشترک) -->
+    <style>
+        .footer { background: linear-gradient(160deg, var(--bg-deep) 0%, #041914 100%); color: #fff; padding: 70px 0 20px; border-radius: 60px 60px 0 0; position: relative; overflow: hidden; }
+        .footer::before { content: ''; position: absolute; top: 0; right: 0; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(231, 186, 60, 0.1), transparent 70%); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-bottom: 50px; position: relative; z-index: 1; }
+        .footer-col h4 { font-size: 1.15rem; font-weight: 800; margin-bottom: 20px; color: var(--gold); letter-spacing: -0.2px; position: relative; padding-bottom: 10px; }
+        .footer-col h4::after { content: ''; position: absolute; bottom: 0; right: 0; width: 34px; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); }
+        .footer-col p { font-size: 0.9rem; color: #cbd5d1; margin-bottom: 15px; line-height: 1.9; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: #cbd5d1; text-decoration: none; font-size: 0.95rem; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
+        .footer-links a:hover { color: var(--gold); transform: translateX(-5px); }
+        
+        .license-box { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(231, 186, 60, 0.28); padding: 16px; border-radius: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .license-item { background: rgba(255,255,255,0.06); border-radius: 16px; padding: 20px 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 130px; text-decoration: none; transition: var(--transition); border: 1px solid rgba(255,255,255,0.06); }
+        .license-item:hover { background: rgba(231, 186, 60, 0.12); border-color: var(--gold); transform: translateY(-3px); }
+        .license-item img { max-width: 60px; max-height: 60px; object-fit: contain; filter: brightness(1.05); }
+        .license-item .license-fallback { display: none; width: 44px; height: 44px; border-radius: 10px; align-items: center; justify-content: center; background: rgba(231, 186, 60, 0.16); color: var(--gold); font-weight: 800; font-size: 0.72rem; }
+        .license-item .license-fallback svg { width: 22px; height: 22px; }
+        .license-item span.license-label { font-size: 0.75rem; color: #cbd5d1; font-weight: 700; text-align: center; line-height: 1.4; }
+        
+        .social-icons { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+        .social-icons a { width: 44px; height: 44px; border-radius: 12px 4px 12px 4px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; color: #fff; transition: var(--transition); text-decoration: none; border: 1px solid rgba(255,255,255,0.08); position: relative; overflow: hidden; }
+        .social-icons a:hover { background: linear-gradient(135deg, var(--gold), var(--accent)); transform: scale(1.1) translateY(-2px); box-shadow: 0 8px 22px rgba(231, 186, 60, 0.42); }
+        .social-icons a img { width: 22px; height: 22px; object-fit: contain; filter: brightness(0) invert(1); transition: var(--transition); }
+        .social-icons a:hover img { filter: brightness(0); }
+        .social-icons a .icon-fallback { display: none; width: 22px; height: 22px; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; color: #fff; }
+
+        .footer-map-container { width: 100%; height: 160px; border-radius: 16px; overflow: hidden; margin-bottom: 12px; border: 2px solid rgba(255,255,255,0.08); }
+        .footer-map-container iframe { width: 100%; height: 100%; border: none; filter: contrast(1.1) brightness(0.9); }
+        .routing-btns { display: flex; gap: 10px; margin-top: 10px; margin-bottom: 16px; }
+        .routing-btns a { flex: 1; padding: 8px; text-align: center; border-radius: 10px; font-size: 0.8rem; font-weight: 700; color: #fff; text-decoration: none; transition: var(--transition); border: 1px solid rgba(255,255,255,0.1); }
+        .routing-btns a.balad { background: rgba(0, 169, 92, 0.15); border-color: rgba(0, 169, 92, 0.4); }
+        .routing-btns a.balad:hover { background: rgba(0, 169, 92, 0.8); }
+        .routing-btns a.neshan { background: rgba(30, 136, 229, 0.15); border-color: rgba(30, 136, 229, 0.4); }
+        .routing-btns a.neshan:hover { background: rgba(30, 136, 229, 0.8); }
+
+        .footer-bottom { text-align: center; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; color: #94a39e; position: relative; z-index: 1; }
+        .footer-bottom strong { color: var(--gold); }
+    </style>
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>درباره مؤسسه ترنج</h4>
+                    <p>مؤسسه ترنج، مرکزی تخصصی برای رشد فردی، شناخت استعدادها و آموزش مهارت‌های زندگی با رویکرد اسلامی است.</p>
+                    <div class="social-icons">
+                        <a href="https://eitaa.com/moshavere_karimeh" target="_blank" rel="noopener" aria-label="ایتا">
+                            <img src="https://cdn.simpleicons.org/eitaa/ffffff" alt="ایتا" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <span class="icon-fallback">ایتا</span>
+                        </a>
+                        <a href="#" target="_blank" rel="noopener" aria-label="آپارات">
+                            <img src="https://cdn.simpleicons.org/aparat/ffffff" alt="آپارات" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <span class="icon-fallback">آپارات</span>
+                        </a>
+                        <a href="#" target="_blank" rel="noopener" aria-label="اینستاگرام">
+                            <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="اینستاگرام" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <span class="icon-fallback">IG</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>دسترسی سریع</h4>
+                    <ul class="footer-links">
+                        <li><a href="/ezdevaj">کلاس مجردها</a></li>
+                        <li><a href="/estedad">دپارتمان استعدادیابی</a></li>
+                        <li><a href="/kargah">دوره‌ها و کارگاه‌ها</a></li>
+                        <li><a href="javascript:void(0)" onclick="openModal()">رزرو وقت مشاوره</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>ارتباط با ما</h4>
+                    <div class="footer-map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3419.4939223126786!2d57.7348982!3d28.6750035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e59555555555555%3A0x5555555555555555!2sJiroft%2C%20Kerman%20Province%2C%20Iran!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <div class="routing-btns">
+                        <a href="https://balad.ir/" target="_blank" rel="noopener" class="balad">مسیریابی با بلد</a>
+                        <a href="https://nshn.ir/" target="_blank" rel="noopener" class="neshan">مسیریابی با نشان</a>
+                    </div>
+                    <ul class="footer-links" style="line-height: 2.2;">
+                        <li style="direction: ltr; text-align: right;"><strong style="color:#fff">تلفن:</strong> <a href="tel:09960808353" style="display: inline;">0996 080 8353</a></li>
+                        <li style="direction: ltr; text-align: right;"><strong style="color:#fff">ایتا:</strong> <a href="https://eitaa.com/moshavere_karimeh" target="_blank" style="display: inline;">@moshavere_karimeh</a></li>
+                        <li><strong style="color:#fff">آدرس:</strong> کرمان، جیرفت، خیابان امام علی، مسجد امام علی (ع)</li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>مجوزها و نمادها</h4>
+                    <div class="license-box">
+                        <a href="#" class="license-item" target="_blank" rel="noopener" aria-label="ساماندهی">
+                            <img src="#" alt="لوگوی ساماندهی" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <span class="license-fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></span>
+                            <span class="license-label">نشان ملی ثبت<br>ساماندهی</span>
+                        </a>
+                        <a href="#" class="license-item" target="_blank" rel="noopener" aria-label="اینماد">
+                            <img src="#" alt="لوگوی اینماد" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <span class="license-fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 5-4 8-9 9-5-1-9-4-9-9V6l9-4 9 4z"/></svg></span>
+                            <span class="license-label">نماد اعتماد<br>الکترونیکی</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">© تمامی حقوق برای <strong>مؤسسه فرهنگی روانشناسی ترنج</strong> محفوظ است.</div>
+        </div>
+    </footer>
+
+    <!-- مودال رزرو وقت مشاوره (مشترک) -->
+    <style>
+        .modal-overlay { position: fixed; inset: 0; background: rgba(7, 42, 37, 0.85); backdrop-filter: blur(6px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease; padding: 20px; will-change: opacity, visibility; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background: #fff; width: 100%; max-width: 500px; padding: 40px; border-radius: var(--radius-organic-1); text-align: center; transform: scale(0.95) translateY(15px); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); position: relative; box-shadow: var(--shadow-lux); max-height: 92vh; overflow-y: auto; overflow-x: hidden; will-change: transform; }
+        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+        .close-modal { position: absolute; top: 15px; left: 15px; background: var(--bg-surface); border: none; cursor: pointer; color: var(--text-muted); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; transition: var(--transition); z-index: 10; }
+        .close-modal:hover { background: var(--primary-light); color: var(--primary); }
+        .modal-title { color: var(--primary-dark); margin-bottom: 10px; font-weight: 900; font-size: 1.5rem; letter-spacing: -0.3px; transition: var(--transition); }
+        .modal-sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 26px; transition: opacity 0.3s ease; }
+        .consult-options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; transition: opacity 0.3s ease, transform 0.3s ease; }
+        .consult-option { border: 1.5px solid var(--border-color); background: #fff; border-radius: 18px; padding: 20px 14px; cursor: pointer; font-family: inherit; text-align: center; transition: var(--transition); display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; }
+        .consult-option:hover { border-color: var(--primary); background: var(--primary-light); transform: translateY(-3px); box-shadow: 0 10px 24px rgba(7, 124, 111, 0.14); }
+        .consult-option.eitaa-option:hover { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 10px 24px rgba(211, 158, 24, 0.16); }
+        .consult-option .option-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--primary-light); color: var(--primary); }
+        .consult-option.eitaa-option .option-icon { background: var(--accent-light); color: var(--accent-dark); }
+        .consult-option .option-icon svg { width: 24px; height: 24px; }
+        .consult-option span { font-weight: 800; color: var(--text-dark); font-size: 0.98rem; }
+        .consult-option small { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; direction: ltr; }
+        .consult-form { display: none; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; margin-top: 10px; width: 100%; }
+        .consult-form.active { display: block; opacity: 1; transform: translateY(0); }
+        .modal-content input, .modal-content select, .modal-content textarea { width: 100%; padding: 16px; margin-bottom: 16px; border: 1.5px solid var(--border-color); border-radius: 14px; font-family: inherit; font-size: 1rem; transition: var(--transition); background: #fff; color: var(--text-dark); }
+        .modal-content input:focus, .modal-content select:focus, .modal-content textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(7, 124, 111, 0.12); }
+        .form-note { font-size: 0.85rem; color: var(--text-muted); background: var(--bg-surface); padding: 12px 16px; border-radius: 12px; margin-top: 12px; line-height: 1.7; text-align: right; }
+    </style>
+    <div class="modal-overlay" id="booking-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()" aria-label="بستن"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+            <h3 class="modal-title">درخواست وقت مشاوره</h3>
+            <p class="modal-sub">برای دریافت مشاوره، یکی از دو راه زیر را انتخاب کنید:</p>
+            <div class="consult-options" id="consultOptionsWrapper">
+                <button type="button" class="consult-option eitaa-option" onclick="contactEitaa()">
+                    <span class="option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+                    <span>ارتباط در ایتا</span>
+                    <small>@moshavere_karimeh</small>
+                </button>
+                <button type="button" class="consult-option form-option" onclick="toggleConsultForm()">
+                    <span class="option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+                    <span>ارسال مشخصات</span>
+                    <small>تکمیل فرم و ارسال پیام</small>
+                </button>
+            </div>
+            <div class="consult-form" id="consultForm">
+                <input type="text" id="fullName" placeholder="نام و نام خانوادگی" autocomplete="name">
+                <input type="tel" id="phone" inputmode="numeric" placeholder="شماره موبایل" style="direction:ltr; text-align:right;" autocomplete="tel">
+                <select id="consultType">
+                    <option value="" disabled>نوع مشاوره را انتخاب کنید</option>
+                    <option value="مشاوره پیش از ازدواج">مشاوره پیش از ازدواج</option>
+                    <!-- تغییر پیش فرض برای این صفحه به استعدادیابی -->
+                    <option value="استعدادیابی" selected>استعدادیابی</option>
+                    <option value="مشاوره فردی / خانواده">مشاوره فردی / خانواده</option>
+                    <option value="کلاس مجردها">کلاس مجردها</option>
+                </select>
+                <button class="btn btn-accent" style="width:100%;" onclick="submitConsultForm()">ارسال مشخصات</button>
+                <p class="form-note">پس از ثبت، پیامی با مشخصات شما آماده می‌شود که به شماره <strong>۰۹۹۶۰۸۰۸۳۵۳</strong> ارسال خواهد شد.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- اسکریپت‌ها -->
+    <script>
+        // پیش‌لودر نرم
+        (function() {
+            const preloader = document.getElementById('preloader');
+            const body = document.body;
+            requestAnimationFrame(function() {
+                setTimeout(function() {
+                    if (preloader) preloader.classList.add('hidden');
+                    setTimeout(() => body.classList.remove('loading'), 300);
+                }, 1200);
+            });
+        })();
+
+        // هدر اسکرول
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        }, { passive: true });
+
+        // منوی موبایل
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        const mobileBtn = document.getElementById('mobile-btn');
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')) {
+                menuBtn.innerHTML = '<svg viewBox="0 0 24 24" class="icon"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+                mobileBtn.style.display = 'block';
+            } else {
+                menuBtn.innerHTML = '<svg viewBox="0 0 24 24" class="icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+            }
+        });
+
+        // انیمیشن‌های نرم Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px 50px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // مودال
+        const modal = document.getElementById('booking-modal');
+        const consultForm = document.getElementById('consultForm');
+        const consultOptionsWrapper = document.getElementById('consultOptionsWrapper');
+        const modalSub = document.querySelector('.modal-sub');
+
+        function openModal() { modal.classList.add('active'); }
+        function closeModal() {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                if(consultOptionsWrapper) {
+                    consultOptionsWrapper.style.display = 'grid';
+                    setTimeout(() => consultOptionsWrapper.style.opacity = '1', 10);
+                }
+                if(modalSub) {
+                    modalSub.style.display = 'block';
+                    setTimeout(() => modalSub.style.opacity = '1', 10);
+                }
+                if(consultForm) consultForm.classList.remove('active');
+            }, 400);
+        }
+        modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+
+        function toggleConsultForm() {
+            if (!consultForm || !consultOptionsWrapper) return;
+            consultOptionsWrapper.style.opacity = '0';
+            if(modalSub) modalSub.style.opacity = '0';
+            setTimeout(() => {
+                consultOptionsWrapper.style.display = 'none';
+                if(modalSub) modalSub.style.display = 'none';
+                consultForm.classList.add('active');
+            }, 300);
+        }
+
+        function contactEitaa() { window.open('https://eitaa.com/moshavere_karimeh', '_blank', 'noopener'); }
+
+        function submitConsultForm() {
+            const nameEl = document.getElementById('fullName');
+            const phoneEl = document.getElementById('phone');
+            const typeEl = document.getElementById('consultType');
+            const name = (nameEl && nameEl.value.trim()) || '';
+            const phone = (phoneEl && phoneEl.value.trim()) || '';
+            const type = (typeEl && typeEl.value) || '';
+
+            if (!name || !phone || !type) {
+                alert('لطفاً نام، شماره موبایل و نوع مشاوره را کامل وارد کنید.');
+                return;
+            }
+
+            const prefix = 'سلام. مشخصات جهت اخذ وقت مشاور به این شماره پیام شود. ۰۹۹۶۰۸۰۸۳۵۳';
+            const body = `${prefix}\n\nنام: ${name}\nشماره تماس: ${phone}\nنوع مشاوره: ${type}`;
+            const smsURL = 'sms:09960808353?body=' + encodeURIComponent(body);
+            try { window.location.href = smsURL; } catch (err) { alert(body); }
+
+            setTimeout(() => {
+                closeModal();
+                if (nameEl) nameEl.value = '';
+                if (phoneEl) phoneEl.value = '';
+            }, 800);
+        }
+
+        // عملکرد پخش ویدیو معرفی
+        function playIntroVideo() {
+            const cover = document.getElementById('videoCover');
+            const video = document.getElementById('introVideo');
+            if (!video) return;
+            
+            const source = video.querySelector('source');
+            const hasRealSource = source && source.getAttribute('src') && source.getAttribute('src') !== '#';
+            
+            if (!hasRealSource) {
+                alert('در حال حاضر ویدیویی برای نمایش وجود ندارد.');
+                return;
+            }
+            
+            if (cover) cover.style.display = 'none';
+            video.classList.add('active');
+            
+            try {
+                video.play();
+            } catch (err) {
+                console.error("Video playback failed", err);
+            }
+        }
+    </script>
+</body>
+</html>
