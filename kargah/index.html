@@ -1,1 +1,987 @@
 
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دوره‌ها و کارگاه‌های تخصصی | مؤسسه ترنج</title>
+    
+    <meta name="description" content="دوره‌ها و کارگاه‌های آموزشی تخصصی مؤسسه ترنج در حوزه پیش از ازدواج، رشد فردی، سبک زندگی اسلامی و مهارت‌های ارتباطی.">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <style>
+        /* ================== متغیرهای رنگی (لوکس و کلاسیک) ================== */
+        :root {
+            --bg-page: #FBFBF7;
+            --bg-surface: #F3F1EA;
+            --bg-deep: #072A25;
+            --primary: #077C6F;
+            --primary-light: #DAF3EE;
+            --primary-dark: #045148;
+            --accent: #D39E18;
+            --accent-light: #FCEED0;
+            --accent-dark: #A57A0D;
+            --gold: #E7BA3C;
+            --text-dark: #0B1F1C;
+            --text-muted: #4F615B;
+            --border-color: #E6E1D4;
+            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-organic-1: 40px 8px 40px 8px;
+            --radius-organic-2: 8px 40px 8px 40px;
+            --shadow-soft: 0 10px 40px rgba(7, 42, 37, 0.08);
+            --shadow-lux: 0 20px 60px rgba(7, 42, 37, 0.14);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
+        body { font-family: 'Vazirmatn', sans-serif; background-color: var(--bg-page); color: var(--text-dark); line-height: 1.8; overflow-x: hidden; }
+        body.loading { overflow: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: opacity, transform; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ================== پیش‌لودر حرفه‌ای ================== */
+        .preloader {
+            position: fixed; inset: 0; z-index: 9999;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+            will-change: opacity, visibility;
+        }
+        .preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .preloader-content { text-align: center; color: #fff; }
+        .preloader-rings { width: 90px; height: 90px; position: relative; margin: 0 auto 24px; }
+        .preloader-rings span {
+            position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--gold);
+            animation: preSpin 1.4s linear infinite;
+        }
+        .preloader-rings span:nth-child(2) { inset: 12px; border-top-color: #ffffff; animation: preSpin 1s linear infinite reverse; }
+        .preloader-rings span:nth-child(3) { inset: 24px; border-top-color: var(--accent); animation: preSpin 0.8s linear infinite; }
+        @keyframes preSpin { to { transform: rotate(360deg); } }
+        .preloader-brand { font-size: 1.35rem; font-weight: 900; letter-spacing: -0.3px; opacity: 0; transform: translateY(8px); animation: preFade 0.7s ease 0.15s forwards; }
+        .preloader-sub { font-size: 0.7rem; color: rgba(255,255,255,0.65); letter-spacing: 5px; margin-top: 6px; font-weight: 700; opacity: 0; transform: translateY(8px); animation: preFade 0.7s ease 0.3s forwards; }
+        @keyframes preFade { to { opacity: 1; transform: translateY(0); } }
+
+        /* ================== هدر سایت (مشترک) ================== */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(251, 251, 247, 0.92); backdrop-filter: blur(12px);
+            padding: 12px 0; transition: padding 0.4s ease, box-shadow 0.4s ease, border-bottom 0.4s ease; border-bottom: 1px solid transparent;
+            will-change: padding, box-shadow;
+        }
+        .header.scrolled { padding: 8px 0; border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 24px rgba(7, 42, 37, 0.05); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo { text-decoration: none; display: flex; align-items: center; gap: 12px; }
+        .logo-img-wrap {
+            width: 54px; height: 54px; border-radius: 14px 4px 14px 4px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-light) 100%);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; border: 1.5px solid var(--border-color); box-shadow: 0 4px 12px rgba(7, 124, 111, 0.12); flex-shrink: 0;
+        }
+        .logo-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .logo-fallback { display: none; align-items: center; justify-content: center; width: 100%; height: 100%; color: var(--primary); }
+        .logo-fallback svg { width: 32px; height: 32px; stroke: var(--primary); fill: none; stroke-width: 1.6; }
+        .logo-text { display: flex; flex-direction: column; line-height: 1.25; }
+        .logo-title { font-weight: 900; font-size: 1.15rem; color: var(--primary-dark); letter-spacing: -0.2px; }
+        .logo-sub { font-size: 0.72rem; font-weight: 700; color: var(--accent-dark); background: var(--accent-light); padding: 1px 8px; border-radius: 6px; width: fit-content; margin-top: 2px; letter-spacing: 0.3px; }
+        
+        .nav-links { display: flex; gap: 26px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 600; transition: var(--transition); position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; right: 0; width: 0; height: 2px; background: var(--accent); transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a:hover::after { width: 100%; }
+        .menu-btn { display: none; background: none; border: none; color: var(--text-dark); cursor: pointer; }
+
+        /* ================== دکمه‌ها ================== */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 13px 30px; font-weight: 700; text-decoration: none; border: none;
+            cursor: pointer; font-family: inherit; font-size: 1rem; transition: var(--transition);
+            position: relative; overflow: hidden; will-change: transform, box-shadow;
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border-radius: var(--radius-organic-1); box-shadow: 0 6px 20px rgba(7, 124, 111, 0.28); }
+        .btn-primary:hover { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); transform: translateY(-3px); border-radius: var(--radius-organic-2); box-shadow: 0 12px 32px rgba(7, 124, 111, 0.38); }
+        .btn-accent { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: #fff; border-radius: var(--radius-organic-2); box-shadow: 0 6px 20px rgba(211, 158, 24, 0.32); }
+        .btn-accent:hover { background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%); transform: translateY(-3px); border-radius: var(--radius-organic-1); box-shadow: 0 12px 32px rgba(211, 158, 24, 0.42); }
+        .btn-sm { padding: 9px 18px; font-size: 0.88rem; border-radius: 10px; }
+
+        /* ================== هدر خلوت صفحه ================== */
+        .page-header { padding: 130px 0 25px; text-align: center; background: var(--bg-page); }
+        .breadcrumb {
+            display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted);
+            background: #fff; padding: 6px 16px; border-radius: 20px; box-shadow: 0 4px 12px rgba(7, 42, 37, 0.04);
+            margin-bottom: 18px; font-weight: 600; border: 1px solid var(--border-color);
+        }
+        .breadcrumb a { color: var(--primary); text-decoration: none; transition: var(--transition); }
+        .breadcrumb a:hover { color: var(--accent); }
+        .breadcrumb svg { width: 14px; height: 14px; }
+        .page-title { font-size: 2.6rem; font-weight: 900; color: var(--text-dark); letter-spacing: -0.5px; margin: 0; }
+        .page-title span { color: var(--primary); }
+
+        /* ================== بخش جدیدترین دوره‌ها (بالای صفحه) ================== */
+        .featured-courses-section { padding: 35px 0 50px; }
+        .featured-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 30px; }
+
+        .featured-card {
+            background: #fff; border-radius: var(--radius-organic-1); overflow: hidden;
+            border: 2px solid var(--accent); box-shadow: var(--shadow-lux);
+            display: flex; flex-direction: column; transition: var(--transition);
+            position: relative;
+        }
+        .featured-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(211, 158, 24, 0.2); }
+
+        .featured-badge-new {
+            position: absolute; top: 16px; right: 16px; z-index: 10;
+            background: linear-gradient(135deg, #e11d48, #be123c); color: #fff;
+            padding: 5px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 800;
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35);
+        }
+
+        .featured-cover {
+            height: 220px; position: relative; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; text-align: center; padding: 20px;
+        }
+        .featured-card:nth-child(1) .featured-cover {
+            background-color: var(--primary-dark);
+            background-image: radial-gradient(at 0% 0%, var(--gold) 0px, transparent 60%), radial-gradient(at 100% 100%, var(--primary) 0px, transparent 60%);
+        }
+        .featured-card:nth-child(2) .featured-cover {
+            background-color: #0c332e;
+            background-image: radial-gradient(at 100% 0%, var(--accent) 0px, transparent 60%), radial-gradient(at 0% 100%, #17544b 0px, transparent 60%);
+        }
+
+        .cover-glass-icon {
+            width: 64px; height: 64px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 18px; display: flex;
+            align-items: center; justify-content: center; color: #fff; margin-bottom: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: var(--transition);
+        }
+        .featured-card:hover .cover-glass-icon { transform: scale(1.1) rotate(6deg); background: rgba(255, 255, 255, 0.3); }
+        .cover-glass-icon svg { width: 32px; height: 32px; }
+
+        .featured-cover h3 { font-size: 1.4rem; font-weight: 900; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.4); line-height: 1.4; position: relative; z-index: 2; }
+        
+        .featured-body { padding: 30px; display: flex; flex-direction: column; flex: 1; }
+        .course-meta-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+        .meta-tag { font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; background: var(--bg-surface); color: var(--text-muted); }
+        .meta-tag.primary { background: var(--primary-light); color: var(--primary-dark); }
+        
+        .featured-body p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 22px; }
+        
+        .course-details-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: auto; }
+        .instructor-info { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; font-weight: 700; color: var(--primary-dark); }
+        .instructor-info svg { width: 18px; height: 18px; color: var(--accent); }
+
+        /* ================== بخش‌های اسلایدر نوار چرخشی (Carousel) ================== */
+        .category-section { padding: 50px 0; position: relative; }
+        .category-section:nth-child(even) { background-color: var(--bg-surface); }
+
+        .category-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; }
+        .category-title h2 { font-size: 1.85rem; font-weight: 900; color: var(--text-dark); letter-spacing: -0.4px; }
+        .category-title h2 span { color: var(--accent); }
+        .category-title p { color: var(--text-muted); font-size: 0.95rem; margin-top: 6px; }
+
+        /* کنترلرهای اسلایدر (قبلی / بعدی) */
+        .carousel-controls { display: flex; gap: 10px; }
+        .carousel-btn {
+            width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--border-color);
+            background: #fff; color: var(--text-dark); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: var(--transition); box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .carousel-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); transform: translateY(-2px); }
+        .carousel-btn svg { width: 20px; height: 20px; stroke-width: 2.5; }
+
+        /* کانتینر چرخشی (Scroll Snap) */
+        .carousel-track {
+            display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory;
+            scroll-behavior: smooth; padding: 15px 5px 25px;
+            -webkit-overflow-scrolling: touch; scrollbar-width: none; /* Firefox */
+        }
+        .carousel-track::-webkit-scrollbar { display: none; /* Chrome, Safari, Edge */ }
+
+        /* کارت درون اسلایدر */
+        .carousel-item {
+            flex: 0 0 320px; scroll-snap-align: start;
+            background: #fff; border-radius: var(--radius-organic-2); overflow: hidden;
+            border: 1.5px solid var(--border-color); box-shadow: 0 4px 18px rgba(7, 42, 37, 0.04);
+            display: flex; flex-direction: column; text-decoration: none !important;
+            transition: var(--transition); will-change: transform;
+        }
+        .carousel-item:hover { transform: translateY(-7px); border-color: var(--primary); box-shadow: 0 16px 36px rgba(7, 124, 111, 0.12); }
+
+        .item-cover {
+            height: 175px; position: relative; display: flex; align-items: center; justify-content: center;
+            flex-direction: column; padding: 20px; text-align: center; overflow: hidden;
+        }
+        
+        /* گرادیانت‌های اختصاصی برای دسته‌ها */
+        .cat-premarriage .item-cover {
+            background-color: var(--primary);
+            background-image: radial-gradient(at 0% 0%, var(--accent) 0px, transparent 65%), radial-gradient(at 100% 100%, var(--primary-dark) 0px, transparent 65%);
+        }
+        .cat-growth .item-cover {
+            background-color: var(--primary-dark);
+            background-image: radial-gradient(at 100% 0%, var(--gold) 0px, transparent 65%), radial-gradient(at 0% 100%, #1a564d 0px, transparent 65%);
+        }
+        .cat-family .item-cover {
+            background-color: #7b590e;
+            background-image: radial-gradient(at 0% 50%, var(--accent) 0px, transparent 60%), radial-gradient(at 100% 50%, var(--gold) 0px, transparent 60%);
+        }
+
+        .item-glass-icon {
+            width: 50px; height: 50px; background: rgba(255, 255, 255, 0.22); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 14px; display: flex;
+            align-items: center; justify-content: center; color: #fff; margin-bottom: 10px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12); transition: var(--transition);
+        }
+        .carousel-item:hover .item-glass-icon { transform: scale(1.08) rotate(-4deg); background: rgba(255, 255, 255, 0.32); }
+        .item-glass-icon svg { width: 26px; height: 26px; }
+
+        .item-cover-text { font-size: 1.15rem; font-weight: 900; color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.35); line-height: 1.4; position: relative; z-index: 2; }
+
+        .item-body { padding: 22px; display: flex; flex-direction: column; flex: 1; text-decoration: none !important; }
+        .item-tag { font-size: 0.72rem; font-weight: 800; background: rgba(211, 158, 24, 0.14); color: var(--accent-dark); padding: 3px 8px; border-radius: 6px; width: fit-content; margin-bottom: 10px; }
+        .item-title { font-size: 1.12rem; font-weight: 800; color: var(--text-dark); margin-bottom: 8px; line-height: 1.5; transition: var(--transition); }
+        .carousel-item:hover .item-title { color: var(--primary); }
+        .item-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 18px; flex: 1; }
+
+        .item-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px dashed var(--border-color); padding-top: 14px; }
+        .item-length { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 5px; }
+        .item-length svg { width: 15px; height: 15px; color: var(--primary); }
+        .item-btn-text { font-size: 0.85rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 4px; }
+        .item-btn-text svg { transition: var(--transition); }
+        .carousel-item:hover .item-btn-text svg { transform: translateX(-4px); }
+
+        /* ================== ریسپانسیو ================== */
+        @media (max-width: 992px) {
+            .nav-links {
+                position: fixed; top: 70px; right: -100%; width: 280px; height: calc(100vh - 70px);
+                background: var(--bg-page); flex-direction: column; align-items: flex-start;
+                padding: 40px 30px; transition: var(--transition); box-shadow: -10px 0 30px rgba(7, 42, 37, 0.08); gap: 20px;
+            }
+            .nav-links.active { right: 0; }
+            .menu-btn { display: block; }
+            .header-cta { display: none; }
+            #mobile-btn { display: block !important; }
+            .page-title { font-size: 2.2rem; }
+            .carousel-item { flex: 0 0 290px; }
+        }
+        @media (max-width: 560px) {
+            .featured-grid { grid-template-columns: 1fr; }
+            .category-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .category-title h2 { font-size: 1.5rem; }
+            .carousel-item { flex: 0 0 85%; }
+        }
+    </style>
+</head>
+<body class="loading">
+
+    <!-- پیش‌لودر -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-rings"><span></span><span></span><span></span></div>
+            <div class="preloader-brand">مؤسسه ترنج</div>
+            <div class="preloader-sub">دوره‌ها و کارگاه‌ها</div>
+        </div>
+    </div>
+
+    <!-- هدر -->
+    <header class="header" id="header">
+        <div class="container nav-container">
+            <a href="/" class="logo" aria-label="بازگشت به صفحه اصلی مؤسسه ترنج">
+                <div class="logo-img-wrap">
+                    <img src="#" alt="لوگوی مؤسسه ترنج" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span class="logo-fallback">
+                        <svg viewBox="0 0 24 24"><path d="M12 2c-1.5 3-4 4.5-6 5.5C4 8.5 3 10 3 12c0 3 2.5 5 5 5.5-1 2-2.5 3-3 4.5M12 2c1.5 3 4 4.5 6 5.5 2 1 3 2.5 3 4.5 0 3-2.5 5-5 5.5 1 2 2.5 3 3 4.5M12 2v20M9 12c0-2 1.5-3.5 3-3.5S15 10 15 12s-1.5 3.5-3 3.5S9 14 9 12z"/></svg>
+                    </span>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">مؤسسه ترنج</span>
+                    <span class="logo-sub">دپارتمان آموزش</span>
+                </div>
+            </a>
+            
+            <nav class="nav-links" id="nav-links">
+                <a href="/#services">خدمات و دپارتمان‌ها</a>
+                <a href="/#director">درباره مسئول مؤسسه</a>
+                <a href="#contact">ارتباط با ما</a>
+                <button class="btn btn-primary" onclick="openModal()" style="display: none;" id="mobile-btn">رزرو نوبت</button>
+            </nav>
+
+            <button class="btn btn-primary header-cta" onclick="openModal()">رزرو وقت مشاوره</button>
+            
+            <button class="menu-btn" id="menu-btn" aria-label="منو">
+                <svg viewBox="0 0 24 24" class="icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- هدر خلوت صفحه -->
+        <section class="page-header">
+            <div class="container reveal">
+                <div class="breadcrumb">
+                    <a href="/">صفحه اصلی</a>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span>دپارتمان‌ها</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span>دوره‌ها و کارگاه‌ها</span>
+                </div>
+                <h1 class="page-title">دوره‌ها و کارگاه‌های <span>آموزشی ترنج</span></h1>
+            </div>
+        </section>
+
+        <!-- بخش جدیدترین دوره‌ها (در بالا) -->
+        <section class="featured-courses-section">
+            <div class="container reveal">
+                <div class="category-header">
+                    <div class="category-title">
+                        <h2>جدیدترین <span>دوره‌ها و رویدادها</span></h2>
+                        <p>تازه‌ترین کارگاه‌های تخصصی در حال ثبت‌نام زیر نظر اساتید برجسته</p>
+                    </div>
+                </div>
+
+                <div class="featured-grid">
+                    <!-- دوره شاخص ۱ -->
+                    <div class="featured-card">
+                        <span class="featured-badge-new">دوره جدید</span>
+                        <div class="featured-cover">
+                            <div style="position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center;">
+                                <div class="cover-glass-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                </div>
+                                <h3>کارگاه جامع «نقشه راه ازدواج موفق»</h3>
+                            </div>
+                        </div>
+                        <div class="featured-body">
+                            <div class="course-meta-tags">
+                                <span class="meta-tag primary">پیش از ازدواج</span>
+                                <span class="meta-tag">حضوری و آنلاین</span>
+                                <span class="meta-tag">۴ جلسه آموزشی</span>
+                            </div>
+                            <p>راهنمای گام به گام شناخت صحیح، کشف ملاک‌های واقعی انتخاب همسر و بررسی موانع شناختی و باورهای غلط در امر ازدواج.</p>
+                            <div class="course-details-row">
+                                <div class="instructor-info">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    مدرس: دکتر افشارمنش
+                                </div>
+                                <button class="btn btn-accent btn-sm" onclick="openModal()">ثبت‌نام در دوره</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- دوره شاخص ۲ -->
+                    <div class="featured-card">
+                        <span class="featured-badge-new">ظرفیت محدود</span>
+                        <div class="featured-cover">
+                            <div style="position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center;">
+                                <div class="cover-glass-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                                </div>
+                                <h3>دوره تخصصی «هوش هیجانی و کنترل خشم»</h3>
+                            </div>
+                        </div>
+                        <div class="featured-body">
+                            <div class="course-meta-tags">
+                                <span class="meta-tag primary">توسعه فردی</span>
+                                <span class="meta-tag">کارگاهی و تعاملی</span>
+                                <span class="meta-tag">۶ جلسه کاربردی</span>
+                            </div>
+                            <p>یادگیری مهارت‌های عملی برای مدیریت بحران‌های احساسی، کنترل تکانه‌های خشم و تبدیل هیجانات منفی به تصمیمات سازنده در زندگی مشترک.</p>
+                            <div class="course-details-row">
+                                <div class="instructor-info">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    دپارتمان روانشناسی ترنج
+                                </div>
+                                <button class="btn btn-accent btn-sm" onclick="openModal()">ثبت‌نام در دوره</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- دسته اول: پیش از ازدواج (نوار چرخشی) -->
+        <section class="category-section cat-premarriage">
+            <div class="container reveal">
+                <div class="category-header">
+                    <div class="category-title">
+                        <h2>دوره‌های <span>پیش از ازدواج و انتخاب همسر</span></h2>
+                        <p>سلسله آموزش‌های ضروری برای ساختن بنایی استوار در زندگی مشترک</p>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-btn" onclick="slideTrack('track-marriage', 1)" aria-label="بعدی">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                        <button class="carousel-btn" onclick="slideTrack('track-marriage', -1)" aria-label="قبلی">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="carousel-track" id="track-marriage">
+                    <!-- آیتم ۱ -->
+                    <div class="carousel-item">
+                        <div class="item-cover">
+                            <div class="item-glass-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            </div>
+                            <span class="item-cover-text">معیارهای اصولی<br>انتخاب همسر</span>
+                        </div>
+                        <div class="item-body">
+                            <span class="item-tag">ویژه مجردها</span>
+                            <h3 class="item-title">معیارهای اصلی در برابر فرعی</h3>
+                            <p class="item-desc">تشخیص معیارهای غیرقابل مذاکره و تفاوت بین عشق‌های زودگذر و تفاهم عمیق شخصیتی.</p>
+                            <div class="item-footer">
+                                <span class="item-length"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ۳ جلسه</span>
+                                <a href="javascript:void(0)" onclick="openModal()" class="item-btn-text">ثبت‌نام <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="12 19 5 12 12 5"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- آیتم ۲ -->
+                    <div class="carousel-item">
+                        <div class="item-cover">
+                            <div class="item-glass-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            </div>
+                            <span class="item-cover-text">هنر گفت‌وگو در<br>جلسات خواستگاری</span>
+                        </div>
+                        <div class="item-body">
+                            <span class="item-tag">مهارت ارتباطی</span>
+                            <h3 class="item-title">رمزگشایی جلسات آشنایی</h3>
+                            <p class="item-desc">طراحی سوالات هوشمندانه، سنجش راستگویی و نحوه بیان دغدغه‌های کلیدی بدون سانسور.</p>
+                            <div class="item-footer">
+                                <span class="item-length"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ۲ جلسه</span>
+                                <a href="javascript:void(0)" onclick="openModal()" class="item-btn-text">ثبت‌نام <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="12 19 5 12 12 5"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- آیتم ۳ -->
+                    <div class="carousel-item">
+                        <div class="item-cover">
+                            <div class="item-glass-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            </div>
+                            <span class="item-cover-text">روانشناسی تفاوت‌های<br>زن و مرد</span>
+                        </div>
+                        <div class="item-body">
+                            <span class="item-tag">شناخت متقابل</span>
+                            <h3 class="item-title">دنیای متمایز زن و مرد</h3>
+                            <p class="item-desc">آشنایی با سیم‌کشی مغزی متفاوت، نیازهای عاطفی بنیادین و زبان محبت در دو جنس.</p>
+                            <div class="item-footer">
+                                <span class="item-length"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ۴ جلسه</span>
+                                <a href="javascript:void(0)" onclick="openModal()" class="item-btn-text">ثبت‌نام <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="12 19 5 12 12 5"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- آیتم ۴ -->
+                    <div class="carousel-item">
+                        <div class="item-cover">
+                            <div class="item-glass-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            </div>
+                            <span class="item-cover-text">نشانه‌های هشدار<br>در دوران آشنایی</span>
+                        </div>
+                        <div class="item-body">
+                            <span class="item-tag">پیشگیری از بحران</span>
+                            <h3 class="item-title">خط قرمزهای ازدواج</h3>
+                            <p class="item-desc">بررسی اختلالات شخصیت پنهان، وابستگی‌های مخرب و هشدارهایی که نباید نادیده گرفت.</p>
+                            <div class="item-footer">
+                                <span class="item-length"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ۲ جلسه</span>
+                                <a href="javascript:void(0)" onclick="openModal()" class="item-btn-text">ثبت‌نام <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="12 19 5 12 12 5"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- دسته دوم: رشد و توسعه فردی (نوار چرخشی) -->
+        <section class="category-section cat-growth">
+            <div class="container reveal">
+                <div class="category-header">
+                    <div class="category-title">
+                        <h2>دوره‌های <span>رشد و توسعه فردی</span></h2>
+                        <p>کشف پتانسیل‌های درونی، تقویت عزت نفس و برنامه‌ریزی هدفمند در زندگی</p>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-btn" onclick="slideTrack('track-growth', 1)" aria-label="بعدی">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                        <button class="carousel-btn" onclick="slideTrack('track-growth', -1)" aria-label="قبلی">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="carousel-track" id="track-growth">
+                    <!-- آیتم ۱ -->
+                    <div class="carousel-item">
+                        <div class="item-cover">
+                            <div class="item-glass-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            </div>
+                            <span class="item-cover-text">تقویت عزت نفس و<br>پذیرش خود</span>
+                        </div>
+                        <div class="item-body">
+                            <span class="item-tag">خودآگاهی</span>
+                            <h3 class="item-title">پایان سرزنش درونی</h3>
+                            <p class="item-desc">غلبه بر سندروم احساس بی‌لیاقتی و دستیابی به خودباوری عمیق و اصیل در روابط و کار.</p>
+                            <div class="item-footer">
+                                <span class="item-length"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ۴ جلسه</span>
+                                <a href="javascript:void(0)" onclick="openModal()" class="item-btn-text">ثبت‌نام <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="12 19 5 12 12 5"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- آیتم ۲ -->
+                    <div class="carousel-item">
+                        <div class="item-cover">
+                            <div class="item-glass-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </div>
+                            <span class="item-cover-text">مدیریت زمان و<br>غلبه بر اهمال‌کاری</span>
+                        </div>
+                        <div class="item-body">
+                            <span class="item-tag">بهره‌وری</span>
+                            <h3 class="item-title">مهندسی عادت‌های روزانه</h3>
+                            <p class="item-desc">تکنیک‌های عملی برای رهایی از به تعویق انداختن کارها و ایجاد نظم فردی پایدار.</p>
+                            <div class="item-footer">
+                                <span class="item-length"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ۳ جلسه</span>
+                                <a href="javascript:void(0)" onclick="openModal()" class="item-btn-text">ثبت‌نام <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="12 19 5 12 12 5"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- آیتم ۳ -->
+                    <div class="carousel-item">
+                        <div class="item-cover">
+                            <div class="item-glass-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                            </div>
+                            <span class="item-cover-text">فن بیان و ارتباط<br>مؤثر اجتماعی</span>
+                        </div>
+                        <div class="item-body">
+                            <span class="item-tag">مهارت کلامی</span>
+                            <h3 class="item-title">قدرت تأثیرگذاری کلام</h3>
+                            <p class="item-desc">چگونه بدون خجالت، قاطعانه و محترمانه صحبت کنیم و در جمع‌ها اثرگذار باشیم.</p>
+                            <div class="item-footer">
+                                <span class="item-length"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ۵ جلسه</span>
+                                <a href="javascript:void(0)" onclick="openModal()" class="item-btn-text">ثبت‌نام <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="12 19 5 12 12 5"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- آیتم ۴ -->
+                    <div class="carousel-item">
+                        <div class="item-cover">
+                            <div class="item-glass-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                            </div>
+                            <span class="item-cover-text">نقشه راه هدف‌گذاری<br>و بازآفرینی زندگی</span>
+                        </div>
+                        <div class="item-body">
+                            <span class="item-tag">آینده‌پژوهی</span>
+                            <h3 class="item-title">طراحی ۵ سال آینده</h3>
+                            <p class="item-desc">تبدیل رویاها به اهداف SMART و نگارش سند چشم‌انداز فردی و شغلی با نظارت مربی.</p>
+                            <div class="item-footer">
+                                <span class="item-length"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ۳ جلسه</span>
+                                <a href="javascript:void(0)" onclick="openModal()" class="item-btn-text">ثبت‌نام <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="12 19 5 12 12 5"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- دسته سوم: سبک زندگی و خانواده (نوار چرخشی) -->
+        <section class="category-section cat-family">
+            <div class="container reveal">
+                <div class="category-header">
+                    <div class="category-title">
+                        <h2>دوره‌های <span>سبک زندگی و سلامت خانواده</span></h2>
+                        <p>تثبیت صمیمیت، مهارت‌های همسرداری و شیوه‌های نوین فرزندپروری اسلامی</p>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-btn" onclick="slideTrack('track-family', 1)" aria-label="بعدی">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                        <button class="carousel-btn" onclick="slideTrack('track-family', -1)" aria-label="قبلی">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="carousel-track" id="track-family">
+                    <!-- آیتم ۱ -->
+                    <div class="carousel-item">
+                        <div class="item-cover">
+                            <div class="item-glass-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            </div>
+                            <span class="item-cover-text">حل تعارضات و<br>اختلافات زناشویی</span>
+                        </div>
+                        <div class="item-body">
+                            <span class="item-tag">ویژه متأهلین</span>
+                            <h3 class="item-title">تبدیل دعوا به تفاهم</h3>
+                            <p class="item-desc">قوانین دعوای منصفانه و روش‌های احیای محبت و بازسازی صمیمیت بعد از مشاجرات خانوادگی.</p>
+                            <div class="item-footer">
+                                <span class="item-length"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ۴ جلسه</span>
+                                <a href="javascript:void(0)" onclick="openModal()" class="item-btn-text">ثبت‌نام <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="12 19 5 12 12 5"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- آیتم ۲ -->
+                    <div class="carousel-item">
+                        <div class="item-cover">
+                            <div class="item-glass-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            </div>
+                            <span class="item-cover-text">فرزندپروری مقتدرانه<br>در عصر رسانه</span>
+                        </div>
+                        <div class="item-body">
+                            <span class="item-tag">تربیت کودک و نوجوان</span>
+                            <h3 class="item-title">تربیت بدون تنبیه</h3>
+                            <p class="item-desc">ایجاد مرزبندی‌های سالم با فرزندان، مدیریت استفاده از فضای مجازی و افزایش تاب‌آوری کودک.</p>
+                            <div class="item-footer">
+                                <span class="item-length"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ۶ جلسه</span>
+                                <a href="javascript:void(0)" onclick="openModal()" class="item-btn-text">ثبت‌نام <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="12 19 5 12 12 5"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- آیتم ۳ -->
+                    <div class="carousel-item">
+                        <div class="item-cover">
+                            <div class="item-glass-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            </div>
+                            <span class="item-cover-text">مدیریت اقتصاد<br>و معیشت خانواده</span>
+                        </div>
+                        <div class="item-body">
+                            <span class="item-tag">مهارت‌های مالی</span>
+                            <h3 class="item-title">آرامش مالی در خانواده</h3>
+                            <p class="item-desc">مدیریت دخل و خرج مشترک، پرهیز از چشم‌و‌هم‌چشمی و برقراری هماهنگی مالی میان زوجین.</p>
+                            <div class="item-footer">
+                                <span class="item-length"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ۲ جلسه</span>
+                                <a href="javascript:void(0)" onclick="openModal()" class="item-btn-text">ثبت‌نام <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="12 19 5 12 12 5"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- آیتم ۴ -->
+                    <div class="carousel-item">
+                        <div class="item-cover">
+                            <div class="item-glass-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 10"/></svg>
+                            </div>
+                            <span class="item-cover-text">تعادل کار و زندگی<br>(سبک زندگی متوازن)</span>
+                        </div>
+                        <div class="item-body">
+                            <span class="item-tag">سلامت روان</span>
+                            <h3 class="item-title">پایان خستگی مزمن</h3>
+                            <p class="item-desc">راهکارهای تقسیم انرژی میان وظایف شغلی و صمیمیت خانوادگی بر اساس رویکرد سبک زندگی اسلامی.</p>
+                            <div class="item-footer">
+                                <span class="item-length"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ۳ جلسه</span>
+                                <a href="javascript:void(0)" onclick="openModal()" class="item-btn-text">ثبت‌نام <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="12 19 5 12 12 5"/></svg></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- فوتر با مجوزها (استایل‌های مشترک) -->
+    <style>
+        .footer { background: linear-gradient(160deg, var(--bg-deep) 0%, #041914 100%); color: #fff; padding: 70px 0 20px; border-radius: 60px 60px 0 0; position: relative; overflow: hidden; }
+        .footer::before { content: ''; position: absolute; top: 0; right: 0; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(231, 186, 60, 0.1), transparent 70%); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-bottom: 50px; position: relative; z-index: 1; }
+        .footer-col h4 { font-size: 1.15rem; font-weight: 800; margin-bottom: 20px; color: var(--gold); letter-spacing: -0.2px; position: relative; padding-bottom: 10px; }
+        .footer-col h4::after { content: ''; position: absolute; bottom: 0; right: 0; width: 34px; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); }
+        .footer-col p { font-size: 0.9rem; color: #cbd5d1; margin-bottom: 15px; line-height: 1.9; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: #cbd5d1; text-decoration: none; font-size: 0.95rem; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
+        .footer-links a:hover { color: var(--gold); transform: translateX(-5px); }
+        
+        .license-box { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(231, 186, 60, 0.28); padding: 16px; border-radius: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .license-item { background: rgba(255,255,255,0.06); border-radius: 16px; padding: 20px 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 130px; text-decoration: none; transition: var(--transition); border: 1px solid rgba(255,255,255,0.06); }
+        .license-item:hover { background: rgba(231, 186, 60, 0.12); border-color: var(--gold); transform: translateY(-3px); }
+        .license-item img { max-width: 60px; max-height: 60px; object-fit: contain; filter: brightness(1.05); }
+        .license-item .license-fallback { display: none; width: 44px; height: 44px; border-radius: 10px; align-items: center; justify-content: center; background: rgba(231, 186, 60, 0.16); color: var(--gold); font-weight: 800; font-size: 0.72rem; }
+        .license-item .license-fallback svg { width: 22px; height: 22px; }
+        .license-item span.license-label { font-size: 0.75rem; color: #cbd5d1; font-weight: 700; text-align: center; line-height: 1.4; }
+        
+        .social-icons { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+        .social-icons a { width: 44px; height: 44px; border-radius: 12px 4px 12px 4px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; color: #fff; transition: var(--transition); text-decoration: none; border: 1px solid rgba(255,255,255,0.08); position: relative; overflow: hidden; }
+        .social-icons a:hover { background: linear-gradient(135deg, var(--gold), var(--accent)); transform: scale(1.1) translateY(-2px); box-shadow: 0 8px 22px rgba(231, 186, 60, 0.42); }
+        .social-icons a img { width: 22px; height: 22px; object-fit: contain; filter: brightness(0) invert(1); transition: var(--transition); }
+        .social-icons a:hover img { filter: brightness(0); }
+        .social-icons a .icon-fallback { display: none; width: 22px; height: 22px; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; color: #fff; }
+
+        .footer-map-container { width: 100%; height: 160px; border-radius: 16px; overflow: hidden; margin-bottom: 12px; border: 2px solid rgba(255,255,255,0.08); }
+        .footer-map-container iframe { width: 100%; height: 100%; border: none; filter: contrast(1.1) brightness(0.9); }
+        .routing-btns { display: flex; gap: 10px; margin-top: 10px; margin-bottom: 16px; }
+        .routing-btns a { flex: 1; padding: 8px; text-align: center; border-radius: 10px; font-size: 0.8rem; font-weight: 700; color: #fff; text-decoration: none; transition: var(--transition); border: 1px solid rgba(255,255,255,0.1); }
+        .routing-btns a.balad { background: rgba(0, 169, 92, 0.15); border-color: rgba(0, 169, 92, 0.4); }
+        .routing-btns a.balad:hover { background: rgba(0, 169, 92, 0.8); }
+        .routing-btns a.neshan { background: rgba(30, 136, 229, 0.15); border-color: rgba(30, 136, 229, 0.4); }
+        .routing-btns a.neshan:hover { background: rgba(30, 136, 229, 0.8); }
+
+        .footer-bottom { text-align: center; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; color: #94a39e; position: relative; z-index: 1; }
+        .footer-bottom strong { color: var(--gold); }
+    </style>
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>درباره مؤسسه ترنج</h4>
+                    <p>مؤسسه ترنج، مرکزی تخصصی برای رشد فردی، شناخت استعدادها و آموزش مهارت‌های زندگی با رویکرد اسلامی است.</p>
+                    <div class="social-icons">
+                        <a href="https://eitaa.com/moshavere_karimeh" target="_blank" rel="noopener" aria-label="ایتا">
+                            <img src="https://cdn.simpleicons.org/eitaa/ffffff" alt="ایتا" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <span class="icon-fallback">ایتا</span>
+                        </a>
+                        <a href="#" target="_blank" rel="noopener" aria-label="آپارات">
+                            <img src="https://cdn.simpleicons.org/aparat/ffffff" alt="آپارات" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <span class="icon-fallback">آپارات</span>
+                        </a>
+                        <a href="#" target="_blank" rel="noopener" aria-label="اینستاگرام">
+                            <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="اینستاگرام" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <span class="icon-fallback">IG</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>دسترسی سریع</h4>
+                    <ul class="footer-links">
+                        <li><a href="/ezdevaj">کلاس مجردها</a></li>
+                        <li><a href="/estedad">دپارتمان استعدادیابی</a></li>
+                        <li><a href="/kargah">دوره‌ها و کارگاه‌ها</a></li>
+                        <li><a href="javascript:void(0)" onclick="openModal()">رزرو وقت مشاوره</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>ارتباط با ما</h4>
+                    <div class="footer-map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3419.4939223126786!2d57.7348982!3d28.6750035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e59555555555555%3A0x5555555555555555!2sJiroft%2C%20Kerman%20Province%2C%20Iran!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <div class="routing-btns">
+                        <a href="https://balad.ir/" target="_blank" rel="noopener" class="balad">مسیریابی با بلد</a>
+                        <a href="https://nshn.ir/" target="_blank" rel="noopener" class="neshan">مسیریابی با نشان</a>
+                    </div>
+                    <ul class="footer-links" style="line-height: 2.2;">
+                        <li style="direction: ltr; text-align: right;"><strong style="color:#fff">تلفن:</strong> <a href="tel:09960808353" style="display: inline;">0996 080 8353</a></li>
+                        <li style="direction: ltr; text-align: right;"><strong style="color:#fff">ایتا:</strong> <a href="https://eitaa.com/moshavere_karimeh" target="_blank" style="display: inline;">@moshavere_karimeh</a></li>
+                        <li><strong style="color:#fff">آدرس:</strong> کرمان، جیرفت، خیابان امام علی، مسجد امام علی (ع)</li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>مجوزها و نمادها</h4>
+                    <div class="license-box">
+                        <a href="#" class="license-item" target="_blank" rel="noopener" aria-label="ساماندهی">
+                            <img src="#" alt="لوگوی ساماندهی" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <span class="license-fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></span>
+                            <span class="license-label">نشان ملی ثبت<br>ساماندهی</span>
+                        </a>
+                        <a href="#" class="license-item" target="_blank" rel="noopener" aria-label="اینماد">
+                            <img src="#" alt="لوگوی اینماد" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <span class="license-fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 5-4 8-9 9-5-1-9-4-9-9V6l9-4 9 4z"/></svg></span>
+                            <span class="license-label">نماد اعتماد<br>الکترونیکی</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">© تمامی حقوق برای <strong>مؤسسه فرهنگی روانشناسی ترنج</strong> محفوظ است.</div>
+        </div>
+    </footer>
+
+    <!-- مودال رزرو وقت مشاوره (مشترک) -->
+    <style>
+        .modal-overlay { position: fixed; inset: 0; background: rgba(7, 42, 37, 0.85); backdrop-filter: blur(6px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease; padding: 20px; will-change: opacity, visibility; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background: #fff; width: 100%; max-width: 500px; padding: 40px; border-radius: var(--radius-organic-1); text-align: center; transform: scale(0.95) translateY(15px); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); position: relative; box-shadow: var(--shadow-lux); max-height: 92vh; overflow-y: auto; overflow-x: hidden; will-change: transform; }
+        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+        .close-modal { position: absolute; top: 15px; left: 15px; background: var(--bg-surface); border: none; cursor: pointer; color: var(--text-muted); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; transition: var(--transition); z-index: 10; }
+        .close-modal:hover { background: var(--primary-light); color: var(--primary); }
+        .modal-title { color: var(--primary-dark); margin-bottom: 10px; font-weight: 900; font-size: 1.5rem; letter-spacing: -0.3px; transition: var(--transition); }
+        .modal-sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 26px; transition: opacity 0.3s ease; }
+        .consult-options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; transition: opacity 0.3s ease, transform 0.3s ease; }
+        .consult-option { border: 1.5px solid var(--border-color); background: #fff; border-radius: 18px; padding: 20px 14px; cursor: pointer; font-family: inherit; text-align: center; transition: var(--transition); display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; }
+        .consult-option:hover { border-color: var(--primary); background: var(--primary-light); transform: translateY(-3px); box-shadow: 0 10px 24px rgba(7, 124, 111, 0.14); }
+        .consult-option.eitaa-option:hover { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 10px 24px rgba(211, 158, 24, 0.16); }
+        .consult-option .option-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--primary-light); color: var(--primary); }
+        .consult-option.eitaa-option .option-icon { background: var(--accent-light); color: var(--accent-dark); }
+        .consult-option .option-icon svg { width: 24px; height: 24px; }
+        .consult-option span { font-weight: 800; color: var(--text-dark); font-size: 0.98rem; }
+        .consult-option small { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; direction: ltr; }
+        .consult-form { display: none; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; margin-top: 10px; width: 100%; }
+        .consult-form.active { display: block; opacity: 1; transform: translateY(0); }
+        .modal-content input, .modal-content select, .modal-content textarea { width: 100%; padding: 16px; margin-bottom: 16px; border: 1.5px solid var(--border-color); border-radius: 14px; font-family: inherit; font-size: 1rem; transition: var(--transition); background: #fff; color: var(--text-dark); }
+        .modal-content input:focus, .modal-content select:focus, .modal-content textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(7, 124, 111, 0.12); }
+        .form-note { font-size: 0.85rem; color: var(--text-muted); background: var(--bg-surface); padding: 12px 16px; border-radius: 12px; margin-top: 12px; line-height: 1.7; text-align: right; }
+    </style>
+    <div class="modal-overlay" id="booking-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()" aria-label="بستن"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+            <h3 class="modal-title">ثبت‌نام و رزرو نوبت</h3>
+            <p class="modal-sub">جهت ثبت‌نام در دوره‌ها یا وقت مشاوره، یکی از دو راه زیر را انتخاب کنید:</p>
+            <div class="consult-options" id="consultOptionsWrapper">
+                <button type="button" class="consult-option eitaa-option" onclick="contactEitaa()">
+                    <span class="option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+                    <span>ارتباط در ایتا</span>
+                    <small>@moshavere_karimeh</small>
+                </button>
+                <button type="button" class="consult-option form-option" onclick="toggleConsultForm()">
+                    <span class="option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+                    <span>ارسال مشخصات</span>
+                    <small>تکمیل فرم ثبت‌نام</small>
+                </button>
+            </div>
+            <div class="consult-form" id="consultForm">
+                <input type="text" id="fullName" placeholder="نام و نام خانوادگی" autocomplete="name">
+                <input type="tel" id="phone" inputmode="numeric" placeholder="شماره موبایل" style="direction:ltr; text-align:right;" autocomplete="tel">
+                <select id="consultType">
+                    <option value="" disabled>عنوان دوره یا نوع مشاوره را انتخاب کنید</option>
+                    <option value="ثبت‌نام کارگاه نقشه راه ازدواج">کارگاه نقشه راه ازدواج موفق</option>
+                    <option value="ثبت‌نام دوره هوش هیجانی">دوره هوش هیجانی و کنترل خشم</option>
+                    <option value="ثبت‌نام در کارگاه‌های آموزشی" selected>سایر دوره‌ها و کارگاه‌ها</option>
+                    <option value="مشاوره فردی / خانواده">مشاوره فردی / خانواده</option>
+                    <option value="کلاس مجردها">کلاس مجردها</option>
+                </select>
+                <button class="btn btn-accent" style="width:100%;" onclick="submitConsultForm()">ارسال درخواست ثبت‌نام</button>
+                <p class="form-note">پس از ثبت، پیامی با مشخصات شما آماده می‌شود که به شماره <strong>۰۹۹۶۰۸۰۸۳۵۳</strong> ارسال خواهد شد.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- اسکریپت‌ها -->
+    <script>
+        // پیش‌لودر نرم
+        (function() {
+            const preloader = document.getElementById('preloader');
+            const body = document.body;
+            requestAnimationFrame(function() {
+                setTimeout(function() {
+                    if (preloader) preloader.classList.add('hidden');
+                    setTimeout(() => body.classList.remove('loading'), 300);
+                }, 1200);
+            });
+        })();
+
+        // هدر هنگام اسکرول
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        }, { passive: true });
+
+        // منوی موبایل
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        const mobileBtn = document.getElementById('mobile-btn');
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')) {
+                menuBtn.innerHTML = '<svg viewBox="0 0 24 24" class="icon"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+                mobileBtn.style.display = 'block';
+            } else {
+                menuBtn.innerHTML = '<svg viewBox="0 0 24 24" class="icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+            }
+        });
+
+        // انیمیشن‌های نرم Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px 50px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // کنترل چرخشی اسلایدرها (هماهنگ با RTL)
+        function slideTrack(trackId, direction) {
+            const track = document.getElementById(trackId);
+            if (!track) return;
+            // در حالت RTL، جابجایی منفی به سمت راست و مثبت به سمت چپ است
+            const step = 340 * direction * -1;
+            track.scrollBy({ left: step, behavior: 'smooth' });
+        }
+
+        // توابع مدال
+        const modal = document.getElementById('booking-modal');
+        const consultForm = document.getElementById('consultForm');
+        const consultOptionsWrapper = document.getElementById('consultOptionsWrapper');
+        const modalSub = document.querySelector('.modal-sub');
+
+        function openModal() { modal.classList.add('active'); }
+        function closeModal() {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                if(consultOptionsWrapper) {
+                    consultOptionsWrapper.style.display = 'grid';
+                    setTimeout(() => consultOptionsWrapper.style.opacity = '1', 10);
+                }
+                if(modalSub) {
+                    modalSub.style.display = 'block';
+                    setTimeout(() => modalSub.style.opacity = '1', 10);
+                }
+                if(consultForm) consultForm.classList.remove('active');
+            }, 400);
+        }
+        modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+
+        function toggleConsultForm() {
+            if (!consultForm || !consultOptionsWrapper) return;
+            consultOptionsWrapper.style.opacity = '0';
+            if(modalSub) modalSub.style.opacity = '0';
+            setTimeout(() => {
+                consultOptionsWrapper.style.display = 'none';
+                if(modalSub) modalSub.style.display = 'none';
+                consultForm.classList.add('active');
+            }, 300);
+        }
+
+        function contactEitaa() { window.open('https://eitaa.com/moshavere_karimeh', '_blank', 'noopener'); }
+
+        function submitConsultForm() {
+            const nameEl = document.getElementById('fullName');
+            const phoneEl = document.getElementById('phone');
+            const typeEl = document.getElementById('consultType');
+            const name = (nameEl && nameEl.value.trim()) || '';
+            const phone = (phoneEl && phoneEl.value.trim()) || '';
+            const type = (typeEl && typeEl.value) || '';
+
+            if (!name || !phone || !type) {
+                alert('لطفاً نام، شماره موبایل و عنوان دوره را کامل وارد کنید.');
+                return;
+            }
+
+            const prefix = 'سلام. مشخصات جهت ثبت‌نام دوره به این شماره پیام شود. ۰۹۹۶۰۸۰۸۳۵۳';
+            const body = `${prefix}\n\nنام و نام خانوادگی: ${name}\nشماره تماس: ${phone}\nعنوان درخواست: ${type}`;
+            const smsURL = 'sms:09960808353?body=' + encodeURIComponent(body);
+            try { window.location.href = smsURL; } catch (err) { alert(body); }
+
+            setTimeout(() => {
+                closeModal();
+                if (nameEl) nameEl.value = '';
+                if (phoneEl) phoneEl.value = '';
+            }, 800);
+        }
+    </script>
+</body>
+</html>
