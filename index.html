@@ -21,7 +21,10 @@
     <!-- فاویکن (آیکون کنار تب مرورگر) -->
     <link rel="icon" href="/toranj/tasavir/logo.png" type="image/png">
 
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <!-- بهینه‌سازی ارتباط اولیه جهت رفع هرگونه استپ در دانلود فونت -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         /* ================== متغیرهای رنگی (لوکس و کلاسیک: سبز زمردی زنده + طلایی درخشان) ================== */
@@ -48,29 +51,53 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
-        body { font-family: 'Vazirmatn', sans-serif; background-color: var(--bg-page); color: var(--text-dark); line-height: 1.8; overflow-x: hidden; }
-        body.loading { overflow: hidden; }
+        html { 
+            scroll-behavior: smooth; 
+            font-size: 16px; 
+            overflow-x: hidden; 
+            scrollbar-gutter: stable; /* جلوگیری کامل از پرش افقی صفحه در اثر ظهور اسکرول بار */
+        }
+        body { 
+            font-family: 'Vazirmatn', sans-serif; 
+            background-color: var(--bg-page); 
+            color: var(--text-dark); 
+            line-height: 1.8; 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
         
-        /* بهینه‌سازی سرعت انیمیشن‌ها با will-change */
-        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: opacity, transform; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        /* بهینه‌سازی سرعت انیمیشن‌ها بدون فشار روی VRAM */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(24px) translateZ(0); 
+            transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); 
+        }
+        .reveal.visible { 
+            opacity: 1; 
+            transform: translateY(0) translateZ(0); 
+        }
 
-        /* ================== پیش‌لودر حرفه‌ای (1.20 ثانیه) مستقل از فونت ================== */
+        /* ================== پیش‌لودر فوق‌العاده روان (مستقل از ترید رندر اصلی) ================== */
         .preloader {
             position: fixed; inset: 0; z-index: 9999;
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
             display: flex; align-items: center; justify-content: center;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-            will-change: opacity, visibility;
-            /* فونت سیستمی تا قبل از لود فونت اصلی هنگ نکند */
-            font-family: Arial, Tahoma, system-ui, -apple-system, sans-serif !important; 
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Vazirmatn', Tahoma, system-ui, -apple-system, sans-serif !important; 
+            transform: translateZ(0);
+            pointer-events: auto;
         }
-        .preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .preloader.hidden { 
+            opacity: 0; 
+            visibility: hidden; 
+            pointer-events: none; 
+        }
         .preloader-content { text-align: center; color: #fff; }
         .preloader-rings {
             width: 90px; height: 90px; position: relative; margin: 0 auto 24px;
+            transform: translateZ(0);
         }
         .preloader-rings span {
             position: absolute; inset: 0; border-radius: 50%;
@@ -86,30 +113,44 @@
             inset: 24px; border-top-color: var(--accent);
             animation: preSpin 0.8s linear infinite;
         }
-        @keyframes preSpin { to { transform: rotate(360deg); } }
+        @keyframes preSpin { 
+            from { transform: rotate(0deg); } 
+            to { transform: rotate(360deg); } 
+        }
         .preloader-brand {
             font-size: 1.35rem; font-weight: 900; letter-spacing: -0.3px;
             opacity: 0; transform: translateY(8px);
-            animation: preFade 0.7s ease 0.15s forwards;
+            animation: preFade 0.6s ease 0.1s forwards;
         }
         .preloader-sub {
             font-size: 0.7rem; color: rgba(255,255,255,0.65); letter-spacing: 5px;
             margin-top: 6px; font-weight: 700;
             opacity: 0; transform: translateY(8px);
-            animation: preFade 0.7s ease 0.3s forwards;
+            animation: preFade 0.6s ease 0.2s forwards;
         }
-        @keyframes preFade { to { opacity: 1; transform: translateY(0); } }
+        @keyframes preFade { 
+            to { opacity: 1; transform: translateY(0); } 
+        }
 
         /* ================== شکل‌های هندسی پس‌زمینه (حباب‌های لوکس) ================== */
-        .bg-shape-1 { position: absolute; top: -10%; right: -5%; width: 500px; height: 500px; background: var(--primary-light); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; z-index: -1; opacity: 0.7; }
-        .bg-shape-2 { position: absolute; top: 40%; left: -10%; width: 300px; height: 300px; background: var(--accent-light); border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; z-index: -1; }
+        .bg-shape-1 { 
+            position: absolute; top: -10%; right: -5%; width: 500px; height: 500px; 
+            background: var(--primary-light); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; 
+            z-index: -1; opacity: 0.7; pointer-events: none;
+        }
+        .bg-shape-2 { 
+            position: absolute; top: 40%; left: -10%; width: 300px; height: 300px; 
+            background: var(--accent-light); border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; 
+            z-index: -1; pointer-events: none;
+        }
 
         /* ================== هدر (لوگو تصویری + متن + ثبت) ================== */
         .header {
             position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            background: rgba(251, 251, 247, 0.92); backdrop-filter: blur(12px);
-            padding: 12px 0; transition: padding 0.4s ease, box-shadow 0.4s ease, border-bottom 0.4s ease; border-bottom: 1px solid transparent;
-            will-change: padding, box-shadow;
+            background: rgba(251, 251, 247, 0.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            padding: 12px 0; transition: padding 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease; 
+            border-bottom: 1px solid transparent;
+            transform: translateZ(0);
         }
         .header.scrolled { padding: 8px 0; border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 24px rgba(7, 42, 37, 0.05); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
@@ -150,7 +191,7 @@
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             padding: 13px 30px; font-weight: 700; text-decoration: none; border: none;
             cursor: pointer; font-family: inherit; font-size: 1rem; transition: var(--transition);
-            position: relative; overflow: hidden; will-change: transform, box-shadow;
+            position: relative; overflow: hidden;
         }
         .btn-primary {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
@@ -252,9 +293,9 @@
         .service-card {
             background: #fff; border-radius: var(--radius-organic-1); padding: 38px 30px 32px;
             text-decoration: none; border: 1.5px solid var(--border-color);
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease; display: flex; flex-direction: column; position: relative; overflow: hidden;
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease; 
+            display: flex; flex-direction: column; position: relative; overflow: hidden;
             box-shadow: 0 4px 20px rgba(7, 42, 37, 0.03);
-            will-change: transform, box-shadow;
         }
         .service-card::before {
             content: ''; position: absolute; top: -60%; left: -60%;
@@ -339,19 +380,17 @@
 
         /* ================== مودال رزرو (کاملا روان و نرم) ================== */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(7, 42, 37, 0.85); backdrop-filter: blur(6px);
+            position: fixed; inset: 0; background: rgba(7, 42, 37, 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
             z-index: 2000; display: flex; align-items: center; justify-content: center;
-            opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease; padding: 20px;
-            will-change: opacity, visibility;
+            opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0.35s ease; padding: 20px;
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-content {
             background: #fff; width: 100%; max-width: 500px; padding: 40px;
             border-radius: var(--radius-organic-1); text-align: center;
-            transform: scale(0.95) translateY(15px); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); position: relative;
+            transform: scale(0.95) translateY(15px); transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); position: relative;
             box-shadow: var(--shadow-lux);
             max-height: 92vh; overflow-y: auto; overflow-x: hidden;
-            will-change: transform;
         }
         .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
         .close-modal {
@@ -574,9 +613,9 @@
         }
     </style>
 </head>
-<body class="loading">
+<body>
 
-    <!-- پیش‌لودر حرفه‌ای (1.20 ثانیه) بدون وابستگی به لود فونت -->
+    <!-- پیش‌لودر حرفه‌ای (کاملاً روان و بدون افت فریم) -->
     <div class="preloader" id="preloader">
         <div class="preloader-content">
             <div class="preloader-rings">
@@ -950,25 +989,31 @@
         </div>
     </div>
 
-    <!-- جاوااسکریپت بسیار سبک و روان -->
+    <!-- جاوااسکریپت بسیار سبک، روان و بدون کوچک‌ترین افت فریم -->
     <script>
-        // 0. پیش‌لودر: نمایش 1.20 ثانیه سپس محو شدن بسیار نرم
-        (function() {
+        // 0. مدیریت فوق‌سریع و روان پیش‌لودر بدون هیچ‌گونه قفل‌شدگی یا لگ
+        window.addEventListener('DOMContentLoaded', function() {
             const preloader = document.getElementById('preloader');
-            const body = document.body;
-            requestAnimationFrame(function() {
-                setTimeout(function() {
-                    if (preloader) preloader.classList.add('hidden');
-                    setTimeout(() => body.classList.remove('loading'), 300); // اجازه اتمام انیمیشن محو
-                }, 1200);
-            });
-        })();
+            setTimeout(function() {
+                if (preloader) {
+                    preloader.classList.add('hidden');
+                }
+            }, 1000);
+        });
 
-        // 1. هدر هنگام اسکرول
+        // 1. هدر هنگام اسکرول با عملکرد روان و پسیو
         const header = document.getElementById('header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 20) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
+        let isScrolled = false;
+        window.addEventListener('scroll', function() {
+            const currentScroll = window.scrollY > 20;
+            if (currentScroll !== isScrolled) {
+                isScrolled = currentScroll;
+                if (isScrolled) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            }
         }, { passive: true });
 
         // 2. منوی موبایل
@@ -993,7 +1038,7 @@
             });
         });
 
-        // 3. انیمیشن محو و پدیدار شدن نرم
+        // 3. انیمیشن محو و پدیدار شدن سبک و بهینه‌شده
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1002,6 +1047,7 @@
                 }
             });
         }, { threshold: 0.1, rootMargin: '0px 0px 50px 0px' });
+        
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
         // 4. مودال رزرو مشاوره
@@ -1047,7 +1093,6 @@
                 
                 // نمایش فرم با انیمیشن
                 consultForm.classList.add('active');
-                // دقت کنید که فوکوس خودکار حذف شده است تا کیبورد بی‌دلیل باز نشود.
             }, 300);
         }
 
