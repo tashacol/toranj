@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مؤسسه ترنج | سبک زندگی اسلامی و مشاوره ازدواج</title>
+    <title>مؤسسه توسعه فردی ترنج | سبک زندگی اسلامی و مشاوره ازدواج</title>
     
-    <meta name="description" content="مؤسسه ترنج؛ مرکز تخصصی سبک زندگی اسلامی، راهنمایی پیش از ازدواج، کلاس مجردها و استعدادیابی. زیر نظر دکتر افشارمنش.">
+    <!-- تگ های سئو و ایندکس حرفه ای در گوگل -->
+    <meta name="description" content="مؤسسه توسعه فردی ترنج؛ مرکز تخصصی سبک زندگی اسلامی، راهنمایی پیش از ازدواج، کلاس مجردها و استعدادیابی. دارای مجوز رسمی از اداره کل وزارت فرهنگ و ارشاد اسلامی.">
+    <meta name="keywords" content="مؤسسه توسعه فردی ترنج, مشاوره ازدواج, استعدادیابی, سبک زندگی اسلامی, مشاوره خانواده, دکتر افشارمنش, کلاس مجردها">
+    <meta name="author" content="مؤسسه توسعه فردی ترنج">
+    
+    <!-- تنظیمات Open Graph برای نمایش تصویر شاخص (لوگو) و عنوان کامل در گوگل و شبکه‌های اجتماعی -->
+    <meta property="og:title" content="مؤسسه توسعه فردی ترنج | مشاوره و توسعه فردی">
+    <meta property="og:description" content="مرکز تخصصی سبک زندگی اسلامی، راهنمایی پیش از ازدواج، استعدادیابی و آموزش مهارت‌های زندگی.">
+    <meta property="og:image" content="/toranj/tasavir/logo.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="/toranj/tasavir/logo.png">
+    
+    <!-- فاویکن (آیکون کنار تب مرورگر) -->
+    <link rel="icon" href="/toranj/tasavir/logo.png" type="image/png">
+
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     
     <style>
@@ -42,13 +57,15 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: opacity, transform; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        /* ================== پیش‌لودر حرفه‌ای (1.20 ثانیه) ================== */
+        /* ================== پیش‌لودر حرفه‌ای (1.20 ثانیه) مستقل از فونت ================== */
         .preloader {
             position: fixed; inset: 0; z-index: 9999;
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
             display: flex; align-items: center; justify-content: center;
             transition: opacity 0.6s ease, visibility 0.6s ease;
             will-change: opacity, visibility;
+            /* فونت سیستمی تا قبل از لود فونت اصلی هنگ نکند */
+            font-family: Arial, Tahoma, system-ui, -apple-system, sans-serif !important; 
         }
         .preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         .preloader-content { text-align: center; color: #fff; }
@@ -114,7 +131,7 @@
         }
         .logo-fallback svg { width: 32px; height: 32px; stroke: var(--primary); fill: none; stroke-width: 1.6; }
         .logo-text { display: flex; flex-direction: column; line-height: 1.25; }
-        .logo-title { font-weight: 900; font-size: 1.15rem; color: var(--primary-dark); letter-spacing: -0.2px; }
+        .logo-title { font-weight: 900; font-size: 1.05rem; color: var(--primary-dark); letter-spacing: -0.2px; }
         .logo-sub {
             font-size: 0.72rem; font-weight: 700; color: var(--accent-dark);
             background: var(--accent-light); padding: 1px 8px; border-radius: 6px;
@@ -283,22 +300,6 @@
         .service-link-indicator svg { transition: var(--transition); }
         .service-card:hover .service-link-indicator svg { transform: translateX(-6px); }
 
-        /* کارت متمایز (وقت مشاوره) */
-        .highlight-card {
-            border-color: var(--accent); border-width: 2px;
-            background: linear-gradient(160deg, #fff 55%, var(--accent-light) 100%);
-        }
-        .highlight-card .service-icon {
-            background: linear-gradient(135deg, var(--accent-light) 0%, #fff 100%);
-            color: var(--accent-dark); border-color: var(--accent);
-        }
-        .highlight-card:hover { border-color: var(--accent-dark); box-shadow: 0 20px 45px rgba(211, 158, 24, 0.22); }
-        .highlight-card:hover .service-icon {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-            color: #fff;
-        }
-        .highlight-card h3, .highlight-card .service-link-indicator { color: var(--accent-dark); }
-
         /* ================== درباره مدیر (قالب هندسی + تصویر ویگنت) ================== */
         .director-section { padding: 100px 0; background: var(--bg-page); position: relative; }
         .director-fluid {
@@ -367,29 +368,39 @@
         }
         .modal-sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 26px; transition: opacity 0.3s ease; }
 
-        .consult-options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; transition: opacity 0.3s ease, transform 0.3s ease; }
+        .consult-options { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 22px; transition: opacity 0.3s ease, transform 0.3s ease; }
+        
+        /* طراحی آیتم های فرم مودال مطابق با کارت های اصلی سایت */
         .consult-option {
             border: 1.5px solid var(--border-color); background: #fff;
-            border-radius: 18px; padding: 20px 14px; cursor: pointer;
+            border-radius: var(--radius-organic-2); padding: 25px 15px; cursor: pointer;
             font-family: inherit; text-align: center; transition: var(--transition);
-            display: flex; flex-direction: column; align-items: center; gap: 8px;
-            position: relative;
+            display: flex; flex-direction: column; align-items: center; gap: 12px;
+            position: relative; box-shadow: 0 4px 20px rgba(7, 42, 37, 0.03);
         }
+        .consult-option:nth-child(even) { border-radius: var(--radius-organic-1); }
         .consult-option:hover {
-            border-color: var(--primary); background: var(--primary-light);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 24px rgba(7, 124, 111, 0.14);
+            border-color: var(--primary); background: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(7, 124, 111, 0.12);
         }
-        .consult-option.eitaa-option:hover { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 10px 24px rgba(211, 158, 24, 0.16); }
+        .consult-option.eitaa-option:hover { border-color: var(--accent); background: #fff; box-shadow: 0 15px 35px rgba(211, 158, 24, 0.14); }
+        
         .consult-option .option-icon {
-            width: 46px; height: 46px; border-radius: 12px;
+            width: 54px; height: 54px; border-radius: var(--radius-organic-1);
             display: flex; align-items: center; justify-content: center;
-            background: var(--primary-light); color: var(--primary);
+            background: linear-gradient(135deg, var(--primary-light) 0%, #fff 100%); 
+            color: var(--primary); border: 1.5px solid var(--border-color);
+            transition: var(--transition);
         }
-        .consult-option.eitaa-option .option-icon { background: var(--accent-light); color: var(--accent-dark); }
-        .consult-option .option-icon svg { width: 24px; height: 24px; }
-        .consult-option span { font-weight: 800; color: var(--text-dark); font-size: 0.98rem; }
-        .consult-option small { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; direction: ltr; }
+        .consult-option.eitaa-option .option-icon { background: linear-gradient(135deg, var(--accent-light) 0%, #fff 100%); color: var(--accent-dark); border-radius: var(--radius-organic-2); }
+        
+        .consult-option:hover .option-icon { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; transform: rotate(-5deg) scale(1.08); border-color: var(--primary-dark); }
+        .consult-option.eitaa-option:hover .option-icon { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: #fff; transform: rotate(-5deg) scale(1.08); border-color: var(--accent-dark); }
+        
+        .consult-option .option-icon svg { width: 28px; height: 28px; }
+        .consult-option span { font-weight: 800; color: var(--text-dark); font-size: 1.05rem; }
+        .consult-option small { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; direction: ltr; }
 
         /* استایل جدید فرم برای باز شدن نرم و بزرگ در مرکز */
         .consult-form { 
@@ -449,7 +460,7 @@
             background: rgba(255,255,255,0.06);
             border-radius: 16px; padding: 20px 8px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            gap: 12px; min-height: 130px; /* افزایش ارتفاع برای حالت عمودی */
+            gap: 12px; min-height: 130px; 
             text-decoration: none; transition: var(--transition);
             border: 1px solid rgba(255,255,255,0.06);
         }
@@ -469,7 +480,7 @@
             font-size: 0.75rem; color: #cbd5d1; font-weight: 700; text-align: center; line-height: 1.4;
         }
         
-        /* آیکون‌های تصویری (CDN معروف) */
+        /* آیکون‌های تصویری شبکه های اجتماعی */
         .social-icons { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
         .social-icons a {
             width: 44px; height: 44px; border-radius: 12px 4px 12px 4px;
@@ -485,17 +496,16 @@
             box-shadow: 0 8px 22px rgba(231, 186, 60, 0.42);
         }
         .social-icons a img {
-            width: 22px; height: 22px; object-fit: contain;
-            filter: brightness(0) invert(1);
+            width: 24px; height: 24px; object-fit: contain;
             transition: var(--transition);
         }
-        .social-icons a:hover img { filter: brightness(0); }
         .social-icons a .icon-fallback {
             display: none; width: 22px; height: 22px;
             align-items: center; justify-content: center;
             font-size: 0.75rem; font-weight: 800; color: #fff;
         }
-
+        .social-promo { margin-top: 15px; font-size: 0.85rem; color: #a4b4ae; line-height: 1.8; }
+        
         /* نقشه در فوتر */
         .footer-map-container {
             width: 100%; height: 160px; border-radius: 16px; overflow: hidden;
@@ -566,7 +576,7 @@
 </head>
 <body class="loading">
 
-    <!-- پیش‌لودر حرفه‌ای (1.20 ثانیه) -->
+    <!-- پیش‌لودر حرفه‌ای (1.20 ثانیه) بدون وابستگی به لود فونت -->
     <div class="preloader" id="preloader">
         <div class="preloader-content">
             <div class="preloader-rings">
@@ -574,7 +584,7 @@
                 <span></span>
                 <span></span>
             </div>
-            <div class="preloader-brand">مؤسسه ترنج</div>
+            <div class="preloader-brand">مؤسسه توسعه فردی ترنج</div>
             <div class="preloader-sub">TORANJ</div>
         </div>
     </div>
@@ -582,12 +592,12 @@
     <!-- هدر -->
     <header class="header" id="header">
         <div class="container nav-container">
-            <a href="#" class="logo" aria-label="مؤسسه ترنج">
+            <a href="#" class="logo" aria-label="مؤسسه توسعه فردی ترنج">
                 <div class="logo-img-wrap">
-                    <!-- لینک لوگو را اینجا قرار دهید (فعلا #) -->
-                    <img src="#" alt="لوگوی مؤسسه ترنج" class="logo-img"
+                    <!-- لینک لوگو -->
+                    <img src="/toranj/tasavir/logo.png" alt="لوگوی مؤسسه توسعه فردی ترنج" class="logo-img"
                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <!-- Fallback: اگر لوگو بارگذاری نشد، این آیکون (طرح بته‌جقه / شکوفه) نمایش داده می‌شود -->
+                    <!-- Fallback: اگر لوگو بارگذاری نشد -->
                     <span class="logo-fallback">
                         <svg viewBox="0 0 24 24">
                             <path d="M12 2c-1.5 3-4 4.5-6 5.5C4 8.5 3 10 3 12c0 3 2.5 5 5 5.5-1 2-2.5 3-3 4.5M12 2c1.5 3 4 4.5 6 5.5 2 1 3 2.5 3 4.5 0 3-2.5 5-5 5.5 1 2 2.5 3 3 4.5M12 2v20M9 12c0-2 1.5-3.5 3-3.5S15 10 15 12s-1.5 3.5-3 3.5S9 14 9 12z"/>
@@ -595,8 +605,8 @@
                     </span>
                 </div>
                 <div class="logo-text">
-                    <span class="logo-title">مؤسسه ترنج</span>
-                    <span class="logo-sub">ثبت: ۳۹۲</span>
+                    <span class="logo-title">مؤسسه توسعه فردی ترنج</span>
+                    <span class="logo-sub">ثبت: ۳۳۴</span>
                 </div>
             </a>
             
@@ -630,7 +640,7 @@
                     </div>
                 </div>
                 <div class="hero-image">
-                    <!-- ویدیوی معرفی ترنج (جایگزین تصویر اصلی) -->
+                    <!-- ویدیوی معرفی ترنج -->
                     <div class="hero-video-container">
                         <div class="video-cover" id="videoCover" onclick="playHeroVideo()" role="button" tabindex="0" aria-label="پخش ویدیو معرفی">
                             <button class="play-btn" type="button" aria-label="پخش ویدیو">
@@ -639,7 +649,7 @@
                             <h3 class="cover-title">معرفی ترنج</h3>
                         </div>
                         <video id="heroVideo" class="hero-video" controls preload="metadata" playsinline poster="#">
-                            <!-- لینک ویدیو را اینجا قرار دهید (فعلا #) -->
+                            <!-- لینک ویدیو را اینجا قرار دهید -->
                             <source src="#" type="video/mp4">
                             مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
                         </video>
@@ -662,7 +672,6 @@
                     <!-- 1. کلاس مجردها -->
                     <a href="/toranj/ezdevaj" class="service-card reveal">
                         <div class="service-icon">
-                            <!-- آیکون مرتبط با ازدواج و ارتباط (حلقه‌ها / افراد) -->
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                             </svg>
@@ -678,7 +687,6 @@
                     <!-- 2. استعدادیابی -->
                     <a href="/toranj/estedad" class="service-card reveal">
                         <div class="service-icon">
-                            <!-- آیکون مرتبط با استعدادیابی و رشد (ستاره/تارگت) -->
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"/>
                                 <circle cx="12" cy="12" r="6"/>
@@ -693,10 +701,9 @@
                         </div>
                     </a>
 
-                    <!-- 3. وقت مشاوره -->
-                    <a href="javascript:void(0)" onclick="openModal()" class="service-card highlight-card reveal">
+                    <!-- 3. وقت مشاوره (کاملا هماهنگ شده با طرح اصلی سایت) -->
+                    <a href="javascript:void(0)" onclick="openModal()" class="service-card reveal">
                         <div class="service-icon">
-                            <!-- آیکون مرتبط با مشاوره و گفتمان -->
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                             </svg>
@@ -712,7 +719,6 @@
                     <!-- 4. دوره‌ها -->
                     <a href="/toranj/kargah" class="service-card reveal">
                         <div class="service-icon">
-                            <!-- آیکون آموزش و یادگیری (کلاه فارغ التحصیلی / کارگاه) -->
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
                                 <path d="M6 12v5c3 3 9 3 12 0v-5"/>
@@ -729,7 +735,6 @@
                     <!-- 5. مقالات -->
                     <a href="/toranj/maqale" class="service-card reveal">
                         <div class="service-icon">
-                            <!-- آیکون مقاله و کتاب -->
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
                                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
@@ -746,7 +751,6 @@
                     <!-- 6. تماس -->
                     <a href="#contact" class="service-card reveal">
                         <div class="service-icon">
-                            <!-- آیکون ارتباط و پشتیبانی -->
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
                             </svg>
@@ -768,7 +772,6 @@
             <div class="container reveal">
                 <div class="director-fluid">
                     <div class="director-img">
-                        <!-- تصویر دکتر افشارمنش با افکت ویگنت (اطراف تاریک، مرکز روشن) -->
                         <img src="https://tashacol.ir/toranj/4.jpg" alt="حجت الاسلام دکتر افشارمنش"
                              onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('beforeend','<svg viewBox=\'0 0 24 24\' class=\'icon\' style=\'width:70px;height:70px;color:var(--primary);position:relative;z-index:1\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'></path><circle cx=\'12\' cy=\'7\' r=\'4\'></circle></svg>');">
                     </div>
@@ -776,7 +779,7 @@
                         <h3>حجت الاسلام دکتر افشارمنش</h3>
                         <h4>دکتری علوم تربیتی | مدرس حوزه و دانشگاه</h4>
                         <p>
-                            بنیان‌گذار مؤسسه ترنج. با سال‌ها تجربه در زمینه مشاوره خانواده و پژوهش در حیطه سبک زندگی اسلامی. هدف ما در مؤسسه ترنج، ارائه راهکارهای علمی، عملی و مبتنی بر ارزش‌های دینی برای ارتقای سطح کیفی زندگی فردی و مشترک شماست. ما در مهم‌ترین تصمیمات زندگی کنار شما هستیم.
+                            بنیان‌گذار مؤسسه توسعه فردی ترنج. با سال‌ها تجربه در زمینه مشاوره خانواده و پژوهش در حیطه سبک زندگی اسلامی. هدف ما در مؤسسه ترنج، ارائه راهکارهای علمی، عملی و مبتنی بر ارزش‌های دینی برای ارتقای سطح کیفی زندگی فردی و مشترک شماست. ما در مهم‌ترین تصمیمات زندگی کنار شما هستیم.
                         </p>
                     </div>
                 </div>
@@ -789,18 +792,28 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>درباره مؤسسه ترنج</h4>
-                    <p>مؤسسه ترنج، مرکزی تخصصی برای رشد فردی، شناخت استعدادها و آموزش مهارت‌های زندگی با رویکرد اسلامی است.</p>
+                    <h4>درباره مؤسسه توسعه فردی ترنج</h4>
+                    <p>مؤسسه توسعه فردی ترنج، مرکزی تخصصی برای رشد فردی، شناخت استعدادها و آموزش مهارت‌های زندگی با رویکرد اسلامی است.</p>
+                    
+                    <!-- اطلاعات دقیق ثبتی مؤسسه به صورت مرتب -->
+                    <ul class="footer-links" style="line-height: 2; font-size: 0.82rem; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                        <li><strong style="color:var(--gold);">شماره مجوز:</strong> ۱۷۸۲/۱۴۰۱/۱۱۴ (۱۷ دی ۱۴۰۱)</li>
+                        <li><strong style="color:var(--gold);">صادرکننده:</strong> اداره کل وزارت فرهنگ و ارشاد اسلامی</li>
+                        <li><strong style="color:var(--gold);">شماره ثبت:</strong> ۳۳۴</li>
+                        <li><strong style="color:var(--gold);">شناسه ملی:</strong> ۱۴۰۱۱۹۱۹۸۵۷</li>
+                        <li><strong style="color:var(--gold);">کد پستی:</strong> ۷۸۶۱۷۱۳۶۵۷</li>
+                    </ul>
+
                     <div class="social-icons">
-                        <!-- ایتا (آیکون تصویری از CDN معروف) -->
+                        <!-- تصویر ایتا -->
                         <a href="https://eitaa.com/moshavere_karimeh" target="_blank" rel="noopener" aria-label="ایتا">
-                            <img src="https://cdn.simpleicons.org/eitaa/ffffff" alt="ایتا"
+                            <img src="/toranj/tasavir/Eita.png" alt="ایتا"
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <span class="icon-fallback">ایتا</span>
                         </a>
-                        <!-- آپارات (آیکون تصویری از CDN معروف) -->
+                        <!-- تصویر آپارات -->
                         <a href="#" target="_blank" rel="noopener" aria-label="آپارات">
-                            <img src="https://cdn.simpleicons.org/aparat/ffffff" alt="آپارات"
+                            <img src="/toranj/tasavir/aparat.png" alt="آپارات"
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <span class="icon-fallback">آپارات</span>
                         </a>
@@ -811,6 +824,10 @@
                             <span class="icon-fallback">IG</span>
                         </a>
                     </div>
+                    <!-- تبلیغ کانال ها -->
+                    <p class="social-promo">
+                        برای دسترسی به جدیدترین محتواهای آموزشی و مهارت‌های زندگی، حتماً <strong>کانال‌های ما در ایتا و آپارات</strong> را دنبال کنید.
+                    </p>
                 </div>
                 
                 <div class="footer-col">
@@ -825,14 +842,14 @@
                 
                 <div class="footer-col">
                     <h4>ارتباط با ما</h4>
-                    <!-- نقشه گوگل افزوده شد -->
+                    <!-- نقشه گوگل اصلاح شده با مختصات دقیق (28.693263, 57.742582) -->
                     <div class="footer-map-container">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3419.4939223126786!2d57.7348982!3d28.6750035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e59555555555555%3A0x5555555555555555!2sJiroft%2C%20Kerman%20Province%2C%20Iran!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe src="https://maps.google.com/maps?q=28.693263,57.742582&hl=fa&z=15&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
-                    <!-- دکمه های مسیریاب -->
+                    <!-- دکمه های مسیریاب با لینک های درخواستی -->
                     <div class="routing-btns">
-                        <a href="https://balad.ir/" target="_blank" rel="noopener" class="balad">مسیریابی با بلد</a>
-                        <a href="https://nshn.ir/" target="_blank" rel="noopener" class="neshan">مسیریابی با نشان</a>
+                        <a href="https://balad.ir/p/322lbi6kgQEFMO" target="_blank" rel="noopener" class="balad">مسیریابی با بلد</a>
+                        <a href="https://nshn.ir/f2_beAodOdAT8u" target="_blank" rel="noopener" class="neshan">مسیریابی با نشان</a>
                     </div>
                     
                     <ul class="footer-links" style="line-height: 2.2;">
@@ -875,12 +892,12 @@
             </div>
             
             <div class="footer-bottom">
-                © تمامی حقوق برای <strong>مؤسسه فرهنگی روانشناسی ترنج</strong> محفوظ است.
+                © تمامی حقوق برای <strong>مؤسسه توسعه فردی ترنج</strong> محفوظ است.
             </div>
         </div>
     </footer>
 
-    <!-- مودال رزرو وقت مشاوره (دو راهی: ایتا یا فرم) -->
+    <!-- مودال رزرو وقت مشاوره (دو راهی: ایتا یا فرم) با طراحی کاملاً یکپارچه سایت -->
     <div class="modal-overlay" id="booking-modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal()" aria-label="بستن">
@@ -889,13 +906,12 @@
             <h3 class="modal-title">درخواست وقت مشاوره</h3>
             <p class="modal-sub">برای دریافت مشاوره، یکی از دو راه زیر را انتخاب کنید:</p>
 
-            <!-- دو گزینه: ایتا یا فرم -->
+            <!-- دو گزینه: ایتا یا فرم (طراحی شده شبیه کارت‌های سایت) -->
             <div class="consult-options" id="consultOptionsWrapper">
                 <button type="button" class="consult-option eitaa-option" onclick="contactEitaa()">
                     <span class="option-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-                        </svg>
+                        <!-- استفاده از تصویر ایتا در مودال -->
+                        <img src="/toranj/tasavir/Eita.png" alt="ایتا" style="width: 34px; height: 34px; object-fit: contain;">
                     </span>
                     <span>ارتباط در ایتا</span>
                     <small>@moshavere_karimeh</small>
@@ -918,7 +934,6 @@
             <!-- فرم ارسال مشخصات -->
             <div class="consult-form" id="consultForm">
                 <input type="text" id="fullName" placeholder="نام و نام خانوادگی" autocomplete="name">
-                <!-- استفاده از inputmode و type="tel" برای کیبورد صرفا عددی بدون اتوفوکوس -->
                 <input type="tel" id="phone" inputmode="numeric" placeholder="شماره موبایل" style="direction:ltr; text-align:right;" autocomplete="tel">
                 <select id="consultType">
                     <option value="" disabled selected>نوع مشاوره را انتخاب کنید</option>
