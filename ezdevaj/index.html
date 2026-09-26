@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -219,12 +219,11 @@
             overflow: hidden;
             box-shadow: 0 14px 35px rgba(0,0,0,0.18);
             aspect-ratio: 16 / 9; /* استاندارد افقی */
-            /* تغییر مهم: حذف all از ترنزیشن جهت جلوگیری از پرش سایز در حالت فول اسکرین */
+            /* تغییر مهم برای رفع چشمک زدن فول اسکرین: محدود کردن ترنزیشن */
             transition: border-radius 0.3s ease, box-shadow 0.3s ease;
             margin-bottom: 12px;
         }
 
-        /* پیش‌گیری از چشمک زدن سفیدی پس‌زمینه سیستم هنگام تمام صفحه */
         .ig-player-card::backdrop {
             background-color: #000;
         }
@@ -275,7 +274,7 @@
             width: 32px;
             height: 32px;
             fill: currentColor;
-            margin-left: 4px; /* برای وسط قرار گرفتن دقیق آیکون مثلثی */
+            margin-left: 4px;
         }
         @keyframes pulsePlay {
             0% { box-shadow: 0 0 0 0 rgba(237, 73, 86, 0.7); transform: scale(0.95); }
@@ -292,10 +291,12 @@
             align-items: center;
             justify-content: space-between;
             z-index: 10;
-            pointer-events: none;
+            pointer-events: none; /* عبور کلیک‌ها از فضای خالی */
             transition: opacity 0.4s ease;
         }
-        .host-info { display: flex; align-items: center; gap: 10px; pointer-events: auto; }
+        .host-info, .live-pills { pointer-events: auto; /* فقط دکمه‌ها کلیک بخورند */ }
+        
+        .host-info { display: flex; align-items: center; gap: 10px; }
         .host-avatar {
             width: 38px; height: 38px;
             border-radius: 50%;
@@ -324,12 +325,13 @@
             background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
             display: flex;
             align-items: center;
-            /* تغییر مهم: فضا دادن دقیق برای جداسازی دکمه‌ها در چپ و راست */
-            justify-content: space-between; 
+            justify-content: space-between;
             z-index: 10;
+            pointer-events: none; /* عبور کلیک‌ها از فضای خالی برای حل تداخل با آپارات */
             transition: opacity 0.4s ease;
         }
         .glass-action-btn {
+            pointer-events: auto; /* فقط دکمه‌ها کلیک بخورند */
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -361,6 +363,7 @@
             color: #FFF;
             text-align: center;
             padding: 20px;
+            cursor: pointer; /* اضافه شدن حالت دست برای خروج با یک ضربه */
         }
         .audio-only-cover.active { display: flex; }
         .audio-speaker-img {
@@ -398,6 +401,7 @@
             height: 100vh !important;
             aspect-ratio: unset !important;
             border-radius: 0 !important;
+            background-color: #000 !important;
         }
         
         .ig-player-card.fullscreen-landscape-fallback {
@@ -410,6 +414,7 @@
             z-index: 999999 !important;
             border-radius: 0 !important;
             aspect-ratio: unset !important;
+            background-color: #000 !important;
         }
 
         .channel-profile-card {
@@ -1060,8 +1065,9 @@
                     <div class="ig-player-card" id="igPlayerBox" style="display: block;">
                         
                         <div class="aparat-live-frame-box">
-                            <!-- لایه جدید برای ثبت کلیک روی ویدیو بدون مزاحمت برای آپارات (دستور ۱) -->
-                            <div id="clickCatcher" style="position: absolute; inset: 0; z-index: 4; cursor: pointer;" onclick="handlePlayerClick()"></div>
+                            <!-- لایه جدید برای ثبت کلیک روی ویدیو بدون مزاحمت برای آپارات (دستور ۱ و ۳) -->
+                            <!-- با محدود کردن این لایه به نیمه بالایی، دکمه‌های پایین آپارات تا ابد آزاد هستند -->
+                            <div id="clickCatcher" style="position: absolute; top: 0; left: 0; right: 0; bottom: 35%; z-index: 4; cursor: pointer;" onclick="handlePlayerClick(event)"></div>
 
                             <!-- دکمه پِلی درخشان برای شروع تعامل و رفع مشکل اتوپلی -->
                             <div class="live-play-overlay" id="livePlayBtnOverlay" onclick="hidePlayOverlay(this); event.stopPropagation();">
@@ -1080,8 +1086,8 @@
                             </iframe>
                         </div>
 
-                        <!-- پنل فقط صدا -->
-                        <div class="audio-only-cover" id="audioOnlyCover">
+                        <!-- پنل فقط صدا (دستور ۳: خروج با ضربه) -->
+                        <div class="audio-only-cover" id="audioOnlyCover" onclick="toggleAudioOnly()">
                             <img src="https://tashacol.ir/toranj/4.jpg" class="audio-speaker-img" alt="دکتر افشارمنش" decoding="async">
                             <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 2px;">پخش زنده صوتی</h4>
                             <p style="font-size: 0.72rem; color: #a4c4bc;">شنیدن راحت در پس‌زمینه با حداقل مصرف اینترنت</p>
@@ -1116,16 +1122,16 @@
                         <!-- کنترل‌های پلیر: چینش دقیق و مستقل چپ و راست برای جلوگیری از تداخل (دستور 1) -->
                         <div class="player-overlay-bottom">
                             
-                            <!-- سمت چپ: دکمه فقط صدا (در RTL انتهای خط سمت چپ قرار می‌گیرد) -->
-                            <button class="glass-action-btn" id="audioToggleBtn" onclick="toggleAudioOnly(); event.stopPropagation();">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-                                <span>فقط صدا</span>
-                            </button>
-                            
-                            <!-- سمت راست: دکمه تمام‌صفحه -->
+                            <!-- دکمه تمام‌صفحه در سمت راست (در مرورگر راست‌چین، اولین دکمه سمت راست است) -->
                             <button class="glass-action-btn" id="fsToggleBtn" onclick="toggleFullscreenLandscape(); event.stopPropagation();">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
                                 <span>تمام‌صفحه افقی</span>
+                            </button>
+
+                            <!-- دکمه فقط صدا دقیقاً در پایین و چپ (در مرورگر راست‌چین، دومین دکمه سمت چپ قرار میگیرد) -->
+                            <button class="glass-action-btn" id="audioToggleBtn" onclick="toggleAudioOnly(); event.stopPropagation();">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                                <span>فقط صدا</span>
                             </button>
                             
                         </div>
@@ -1430,72 +1436,63 @@
 
         // ======================== منطق دکمه‌های کنترل ویدیو (دستور ۱ و ۳) ========================
         let controlsTimeout;
-        let isLiveStarted = false; // دستور ۳: متغیر برای بررسی کلیک شدن دکمه پلی
+        let isLiveStarted = false; // بررسی وضعیت پخش لایو
+        let lastClickTime = 0; // زمانسنج برای تشخیص دو مرتبه ضربه زدن
 
-        // وقتی روی فضای ویدیو کلیک می‌شود
-        function handlePlayerClick() {
-            if (!isLiveStarted) return; // اگر دکمه پلی زده نشده، کلیک اثری ندارد و دکمه‌ها می‌مانند
-            
-            wakeUpControls();
-            
-            // لایه شفاف را موقتاً غیرفعال می‌کنیم تا کاربر بتواند ویدیو زیرین را پاز/پلی کند
-            const catcher = document.getElementById('clickCatcher');
-            if(catcher) {
-                catcher.style.pointerEvents = 'none';
-                setTimeout(() => {
-                    if(isLiveStarted) catcher.style.pointerEvents = 'auto'; // پس از ۳ ثانیه دوباره فعال می‌شود
-                }, 3000);
+        // مدیریت ضربه‌ها (فقط دو ضربه پشت سر هم عمل می‌کند)
+        function handlePlayerClick(event) {
+            if (!isLiveStarted) return; // اگر دکمه پلی اولیه زده نشده کاری نکن
+
+            let now = Date.now();
+            if (now - lastClickTime < 400) {
+                // دو ضربه تشخیص داده شد (Double Tap)
+                wakeUpControls();
             }
+            // اگر یک ضربه بود هیچ اتفاقی برای رابط کاربری ما نمی‌افتد و نادیده گرفته می‌شود.
+            lastClickTime = now;
         }
 
         function wakeUpControls() {
             const topOverlay = document.querySelector('.player-overlay-top');
             const bottomOverlay = document.querySelector('.player-overlay-bottom');
 
+            // نمایش منوها
             if (topOverlay) topOverlay.style.opacity = '1';
             if (bottomOverlay) {
                 bottomOverlay.style.opacity = '1';
-                bottomOverlay.style.pointerEvents = 'auto'; 
+                // در حالت نمایش، دکمه‌های داخل آن قابل کلیک باشند
+                bottomOverlay.style.pointerEvents = 'none'; 
             }
 
             clearTimeout(controlsTimeout);
             
-            // دستور ۳: فقط در صورتی دکمه‌ها را بعد از ۳ ثانیه پنهان کن که لایو استارت شده باشد
+            // تا زمانی که لایو استارت نخورده این منوها پنهان نمی‌شوند
             if (isLiveStarted) {
                 controlsTimeout = setTimeout(() => {
                     if (topOverlay) topOverlay.style.opacity = '0';
                     if (bottomOverlay) {
                         bottomOverlay.style.opacity = '0';
-                        bottomOverlay.style.pointerEvents = 'none'; 
                     }
-                }, 3000);
+                }, 3500); // محو شدن بعد از ۳.۵ ثانیه
             }
         }
         
-        // اجرای اولیه: دکمه‌ها ظاهر می‌شوند ولی چون isLiveStarted فالس است، پنهان نمی‌شوند
+        // اجرای اولیه برای نمایش ثابت قبل از شروع
         window.addEventListener('DOMContentLoaded', wakeUpControls);
 
-        // پنهان کردن دکمه پلی اولیه لایو و استارت شدن سیستم
+        // کلیک روی دکمه درخشان Play برای شروع لایو
         function hidePlayOverlay(el) {
-            isLiveStarted = true; // دستور ۳: حالا لایو شروع شد!
+            isLiveStarted = true; // لایو آغاز شد
             el.style.opacity = '0';
             setTimeout(() => {
                 el.style.display = 'none';
             }, 300);
             
-            // برداشتن موقت لایه کلیک‌گیر برای اینکه تاچ اول به درستی روی ویدیو بنشیند
-            const catcher = document.getElementById('clickCatcher');
-            if(catcher) {
-                catcher.style.pointerEvents = 'none';
-                setTimeout(() => {
-                    catcher.style.pointerEvents = 'auto';
-                }, 3000);
-            }
-
-            wakeUpControls(); // فراخوانی برای شروع تایمر ۳ ثانیه‌ای محو شدن
+            // شروع تایمر برای پنهان کردن منوها (دستور ۳: تا قبل از این محو نمی‌شدند)
+            wakeUpControls(); 
         }
 
-        // ======================== منطق دکمه تمام‌صفحه (دستور ۲ و رفع باگ پرش) ========================
+        // ======================== منطق دکمه تمام‌صفحه و رفع باگ پرش (دستور ۲) ========================
         function toggleFullscreenLandscape() {
             const playerBox = document.getElementById('igPlayerBox');
             
@@ -1518,12 +1515,12 @@
                     updateFullscreenButtonState();
                 }
             } else {
-                // خروج از تمام‌صفحه (بدون ایجاد ارور خاموش در کنسول)
+                // خروج از تمام‌صفحه با دکمه (بدون ارور)
                 const exitFS = document.exitFullscreen || document.webkitExitFullscreen;
                 if (exitFS && (document.fullscreenElement || document.webkitFullscreenElement)) {
                     let promise = exitFS.call(document);
                     if (promise) {
-                        promise.catch(err => console.warn("Fullscreen exit handled.", err));
+                        promise.catch(err => console.warn("خروج از تمام صفحه کنترل شد.", err));
                     }
                 }
                 if (screen.orientation && screen.orientation.unlock) {
@@ -1534,11 +1531,11 @@
             }
         }
 
-        // بررسی رویداد فول‌اسکرین بومی سیستم (برای وقتی که با دکمه بازگشت گوشی خارج میشویم)
+        // شناسایی خروج کاربر توسط دکمه‌های خود گوشی (بک زدن)
         document.addEventListener('fullscreenchange', updateFullscreenButtonState);
         document.addEventListener('webkitfullscreenchange', updateFullscreenButtonState);
 
-        // دستور ۲: تغییر ظاهر دکمه تمام‌صفحه به «برگشت به حالت قبل»
+        // تغییر آیکون و متن دکمه به "برگشت به حالت قبل"
         function updateFullscreenButtonState() {
             const fsBtn = document.getElementById('fsToggleBtn');
             const playerBox = document.getElementById('igPlayerBox');
@@ -1546,7 +1543,6 @@
             const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || playerBox.classList.contains('fullscreen-landscape-fallback');
 
             if (!isFullscreen) {
-                // خارج شدیم از تمام صفحه - بازگشت دکمه به حالت اولیه
                 playerBox.classList.remove('fullscreen-landscape-fallback');
                 if (screen.orientation && screen.orientation.unlock) {
                     screen.orientation.unlock();
@@ -1555,7 +1551,6 @@
                     fsBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg><span>تمام‌صفحه افقی</span>`;
                 }
             } else {
-                // وارد تمام صفحه شدیم - تغییر دکمه به خروج
                 if (fsBtn) {
                     fsBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg><span>برگشت به حالت قبل</span>`;
                 }
