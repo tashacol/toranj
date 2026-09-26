@@ -1,4 +1,4 @@
-   <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -218,9 +218,15 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 14px 35px rgba(0,0,0,0.18);
-            aspect-ratio: 9/12;
-            transition: all 0.3s ease;
+            aspect-ratio: 16 / 9; /* استاندارد افقی */
+            /* تغییر مهم: حذف all از ترنزیشن جهت جلوگیری از پرش سایز در حالت فول اسکرین */
+            transition: border-radius 0.3s ease, box-shadow 0.3s ease;
             margin-bottom: 12px;
+        }
+
+        /* پیش‌گیری از چشمک زدن سفیدی پس‌زمینه سیستم هنگام تمام صفحه */
+        .ig-player-card::backdrop {
+            background-color: #000;
         }
 
         .aparat-live-frame-box {
@@ -239,6 +245,44 @@
             display: block;
         }
 
+        /* لایه دکمه Play چشمک‌زن روی ویدیو */
+        .live-play-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .play-icon-circle {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: var(--ig-live);
+            color: #FFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(237, 73, 86, 0.4);
+            animation: pulsePlay 1.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .play-icon-circle svg {
+            width: 32px;
+            height: 32px;
+            fill: currentColor;
+            margin-left: 4px; /* برای وسط قرار گرفتن دقیق آیکون مثلثی */
+        }
+        @keyframes pulsePlay {
+            0% { box-shadow: 0 0 0 0 rgba(237, 73, 86, 0.7); transform: scale(0.95); }
+            70% { box-shadow: 0 0 0 12px rgba(237, 73, 86, 0); transform: scale(1.05); }
+            100% { box-shadow: 0 0 0 0 rgba(237, 73, 86, 0); transform: scale(0.95); }
+        }
+
         .player-overlay-top {
             position: absolute;
             top: 0; left: 0; width: 100%;
@@ -249,6 +293,7 @@
             justify-content: space-between;
             z-index: 10;
             pointer-events: none;
+            transition: opacity 0.4s ease;
         }
         .host-info { display: flex; align-items: center; gap: 10px; pointer-events: auto; }
         .host-avatar {
@@ -279,8 +324,10 @@
             background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            /* تغییر مهم: فضا دادن دقیق برای جداسازی دکمه‌ها در چپ و راست */
+            justify-content: space-between; 
             z-index: 10;
+            transition: opacity 0.4s ease;
         }
         .glass-action-btn {
             background: rgba(255, 255, 255, 0.2);
@@ -302,31 +349,11 @@
         .glass-action-btn:active { transform: scale(0.93); }
         .glass-action-btn.active { background: #FFF; color: #000; }
 
-        .fullscreen-exit-btn {
-            position: absolute;
-            top: 14px;
-            left: 14px;
-            z-index: 200;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: #FFF;
-            padding: 7px 14px;
-            border-radius: 20px;
-            font-size: 0.76rem;
-            font-weight: 700;
-            display: none;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            font-family: inherit;
-        }
-
         .audio-only-cover {
             position: absolute;
             inset: 0;
             background: linear-gradient(160deg, #072a25 0%, #031411 100%);
-            z-index: 5;
+            z-index: 6;
             display: none;
             flex-direction: column;
             align-items: center;
@@ -372,10 +399,6 @@
             aspect-ratio: unset !important;
             border-radius: 0 !important;
         }
-        .ig-player-card:fullscreen .fullscreen-exit-btn,
-        .ig-player-card:-webkit-full-screen .fullscreen-exit-btn {
-            display: flex !important;
-        }
         
         .ig-player-card.fullscreen-landscape-fallback {
             position: fixed !important;
@@ -387,9 +410,6 @@
             z-index: 999999 !important;
             border-radius: 0 !important;
             aspect-ratio: unset !important;
-        }
-        .ig-player-card.fullscreen-landscape-fallback .fullscreen-exit-btn {
-            display: flex !important;
         }
 
         .channel-profile-card {
@@ -429,6 +449,33 @@
             box-shadow: 0 3px 12px rgba(0,0,0,0.03);
             display: flex;
             flex-direction: column;
+            margin-bottom: 16px;
+        }
+
+        /* محدود کننده تعداد نمایش آیتم‌ها به حداکثر ۵ عدد */
+        .feed-items-wrapper > *:nth-child(n+6) {
+            display: none !important;
+        }
+        
+        /* دکمه موارد بیشتر */
+        .btn-load-more {
+            display: block;
+            text-align: center;
+            width: 100%;
+            background: #FFF;
+            color: var(--ig-blue);
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            border: 0.5px solid var(--ig-border);
+            text-decoration: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-load-more:active {
+            background: var(--ig-surface);
+            transform: scale(0.98);
         }
 
         .aparat-embed-container {
@@ -721,7 +768,7 @@
         .icon-whatsapp { background: #25D366; }
         .icon-bale { background: #189851; }
 
-        /* ======================== مدال استوری تمام‌صفحه تعاملی (بروزرسانی تم روشن و جذاب) ======================== */
+        /* ======================== مدال استوری تمام‌صفحه تعاملی ======================== */
         .story-viewer-modal {
             position: fixed; inset: 0; z-index: 9999999;
             background: #000; display: none; flex-direction: column;
@@ -769,7 +816,6 @@
             overflow: hidden;
         }
 
-        /* کارت محتوایی اختصاصی استوری با جلوه روشن و لوکس (آپدیت شده) */
         .story-slide-card {
             width: 100%;
             max-width: 370px;
@@ -880,17 +926,9 @@
             </div>
         </header>
 
-        <!-- استوری‌ها: ۴ استوری تعاملی درباره کلاس مجردها + استوری لایو همیشگی -->
+        <!-- استوری‌ها: ۴ استوری تعاملی درباره کلاس مجردها -->
         <div class="stories-bar" id="storiesBar">
             
-            <!-- استوری لایو (همیشه فعال به عنوان تلویزیون) -->
-            <div class="story-item" id="liveStoryItem" style="display: flex;" onclick="switchMainTab('live')">
-                <div class="story-ring live-pulsing">
-                    <img id="liveStoryAvatarImg" src="https://tashacol.ir/toranj/4.jpg" class="story-avatar" alt="لایو زنده" decoding="async">
-                </div>
-                <span class="story-label">پخش زنده</span>
-            </div>
-
             <!-- استوری ۱: معرفی و چیستی -->
             <div class="story-item" onclick="openInteractiveStory(0)">
                 <div class="story-ring">
@@ -939,75 +977,78 @@
             <!-- ===================== تب ۱: آرشیو جلسات گذشته ===================== -->
             <section id="tab-archive" class="view-screen">
                 <div class="archive-feed">
+                    <div class="feed-items-wrapper">
+                        <!-- جلسه اول گذشته -->
+                        <div class="video-item-box">
+                            <div class="aparat-embed-container">
+                                <iframe 
+                                    src="https://www.aparat.com/video/video/embed/videohash/pvnhi42/vt/frame?responsive=yes" 
+                                    title="ویدیو جلسه اول کلاس مجردها" 
+                                    allowfullscreen="true" 
+                                    webkitallowfullscreen="true" 
+                                    mozallowfullscreen="true"
+                                    loading="lazy">
+                                </iframe>
+                            </div>
+                            <div class="video-item-info">
+                                <div class="video-item-badge">جلسه اول • ۵۴ دقیقه</div>
+                                <h3 class="video-item-title">مبانی انتخاب عاقلانه و باورهای غلط در ازدواج</h3>
+                                <p class="video-item-desc">بررسی معیارهای واقعی در انتخاب همسر، خطاهای شناختی رایج در اولین برخوردها و ضرورت دستیابی به خودآگاهی پیش از تشکیل خانواده با تدریس دکتر افشارمنش.</p>
+                                
+                                <div class="video-action-row">
+                                    <button class="btn-action-pill" onclick="copyDirectLink('جلسه اول کلاس مجردها', 'مشاهده ویدیو جلسه اول: مبانی انتخاب عاقلانه و باورهای غلط در ازدواج با دکتر افشارمنش', 'https://www.aparat.com/v/pvnhi42', 'لینک جلسه اول')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                        <span>کپی لینک</span>
+                                    </button>
+                                    <button class="btn-action-pill" onclick="openShareModal('جلسه اول کلاس مجردها', 'مشاهده ویدیو جلسه اول: مبانی انتخاب عاقلانه و باورهای غلط در ازدواج با دکتر افشارمنش', 'https://www.aparat.com/v/pvnhi42')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                        <span>ارسال</span>
+                                    </button>
+                                    <a class="btn-action-pill" href="https://www.aparat.com/v/pvnhi42" target="_blank" rel="noopener">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                        <span>مشاهده در آپارات</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- جلسه دوم گذشته -->
+                        <div class="video-item-box">
+                            <div class="aparat-embed-container">
+                                <iframe 
+                                    src="https://www.aparat.com/video/video/embed/videohash/tpi35nw/vt/frame?responsive=yes" 
+                                    title="ویدیو جلسه دوم کلاس مجردها" 
+                                    allowfullscreen="true" 
+                                    webkitallowfullscreen="true" 
+                                    mozallowfullscreen="true"
+                                    loading="lazy">
+                                </iframe>
+                            </div>
+                            <div class="video-item-info">
+                                <div class="video-item-badge">جلسه دوم • ۶۲ دقیقه</div>
+                                <h3 class="video-item-title">بلوغ عاطفی و معیارهای بنیادین در ازدواج</h3>
+                                <p class="video-item-desc">تشخیص میزان پختگی و مسئولیت‌پذیری طرف مقابل، تبیین تفاوت‌های بلوغ سنی با بلوغ روانی و اجتماعی، و مهارت گفت‌وگو در جلسات رسمی خواستگاری.</p>
+                                
+                                <div class="video-action-row">
+                                    <button class="btn-action-pill" onclick="copyDirectLink('جلسه دوم کلاس مجردها', 'مشاهده ویدیو جلسه دوم: بلوغ عاطفی و معیارهای بنیادین با دکتر افشارمنش', 'https://www.aparat.com/v/tpi35nw', 'لینک جلسه دوم')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                        <span>کپی لینک</span>
+                                    </button>
+                                    <button class="btn-action-pill" onclick="openShareModal('جلسه دوم کلاس مجردها', 'مشاهده ویدیو جلسه دوم: بلوغ عاطفی و معیارهای بنیادین با دکتر افشارمنش', 'https://www.aparat.com/v/tpi35nw')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                        <span>ارسال</span>
+                                    </button>
+                                    <a class="btn-action-pill" href="https://www.aparat.com/v/tpi35nw" target="_blank" rel="noopener">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                        <span>مشاهده در آپارات</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- پایان رپر آیتم‌ها -->
                     
-                    <!-- جلسه اول گذشته -->
-                    <div class="video-item-box">
-                        <div class="aparat-embed-container">
-                            <iframe 
-                                src="https://www.aparat.com/video/video/embed/videohash/pvnhi42/vt/frame?responsive=yes" 
-                                title="ویدیو جلسه اول کلاس مجردها" 
-                                allowfullscreen="true" 
-                                webkitallowfullscreen="true" 
-                                mozallowfullscreen="true"
-                                loading="lazy">
-                            </iframe>
-                        </div>
-                        <div class="video-item-info">
-                            <div class="video-item-badge">جلسه اول • ۵۴ دقیقه</div>
-                            <h3 class="video-item-title">مبانی انتخاب عاقلانه و باورهای غلط در ازدواج</h3>
-                            <p class="video-item-desc">بررسی معیارهای واقعی در انتخاب همسر، خطاهای شناختی رایج در اولین برخوردها و ضرورت دستیابی به خودآگاهی پیش از تشکیل خانواده با تدریس دکتر افشارمنش.</p>
-                            
-                            <div class="video-action-row">
-                                <button class="btn-action-pill" onclick="copyDirectLink('جلسه اول کلاس مجردها', 'مشاهده ویدیو جلسه اول: مبانی انتخاب عاقلانه و باورهای غلط در ازدواج با دکتر افشارمنش', 'https://www.aparat.com/v/pvnhi42', 'لینک جلسه اول')">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                                    <span>کپی لینک</span>
-                                </button>
-                                <button class="btn-action-pill" onclick="openShareModal('جلسه اول کلاس مجردها', 'مشاهده ویدیو جلسه اول: مبانی انتخاب عاقلانه و باورهای غلط در ازدواج با دکتر افشارمنش', 'https://www.aparat.com/v/pvnhi42')">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                                    <span>ارسال</span>
-                                </button>
-                                <a class="btn-action-pill" href="https://www.aparat.com/v/pvnhi42" target="_blank" rel="noopener">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                    <span>مشاهده در آپارات</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- جلسه دوم گذشته -->
-                    <div class="video-item-box">
-                        <div class="aparat-embed-container">
-                            <iframe 
-                                src="https://www.aparat.com/video/video/embed/videohash/tpi35nw/vt/frame?responsive=yes" 
-                                title="ویدیو جلسه دوم کلاس مجردها" 
-                                allowfullscreen="true" 
-                                webkitallowfullscreen="true" 
-                                mozallowfullscreen="true"
-                                loading="lazy">
-                            </iframe>
-                        </div>
-                        <div class="video-item-info">
-                            <div class="video-item-badge">جلسه دوم • ۶۲ دقیقه</div>
-                            <h3 class="video-item-title">بلوغ عاطفی و معیارهای بنیادین در ازدواج</h3>
-                            <p class="video-item-desc">تشخیص میزان پختگی و مسئولیت‌پذیری طرف مقابل، تبیین تفاوت‌های بلوغ سنی با بلوغ روانی و اجتماعی، و مهارت گفت‌وگو در جلسات رسمی خواستگاری.</p>
-                            
-                            <div class="video-action-row">
-                                <button class="btn-action-pill" onclick="copyDirectLink('جلسه دوم کلاس مجردها', 'مشاهده ویدیو جلسه دوم: بلوغ عاطفی و معیارهای بنیادین با دکتر افشارمنش', 'https://www.aparat.com/v/tpi35nw', 'لینک جلسه دوم')">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                                    <span>کپی لینک</span>
-                                </button>
-                                <button class="btn-action-pill" onclick="openShareModal('جلسه دوم کلاس مجردها', 'مشاهده ویدیو جلسه دوم: بلوغ عاطفی و معیارهای بنیادین با دکتر افشارمنش', 'https://www.aparat.com/v/tpi35nw')">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                                    <span>ارسال</span>
-                                </button>
-                                <a class="btn-action-pill" href="https://www.aparat.com/v/tpi35nw" target="_blank" rel="noopener">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                    <span>مشاهده در آپارات</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
+                    <!-- دکمه موارد بیشتر آرشیو -->
+                    <a href="#" onclick="alert('منتظر دستور شما برای لینک ویدیوها هستم.'); return false;" class="btn-load-more">موارد بیشتر</a>
                 </div>
             </section>
 
@@ -1015,15 +1056,20 @@
             <section id="tab-live" class="view-screen active">
                 <div class="live-player-container">
                     
-                    <!-- کارت پلیر لایو (همیشه فعال به عنوان تلویزیون) -->
+                    <!-- کارت پلیر لایو -->
                     <div class="ig-player-card" id="igPlayerBox" style="display: block;">
                         
-                        <button class="fullscreen-exit-btn" id="exitFsBtn" onclick="toggleFullscreenLandscape()">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            <span>خروج از تمام‌صفحه</span>
-                        </button>
-
                         <div class="aparat-live-frame-box">
+                            <!-- لایه جدید برای ثبت کلیک روی ویدیو بدون مزاحمت برای آپارات (دستور ۱) -->
+                            <div id="clickCatcher" style="position: absolute; inset: 0; z-index: 4; cursor: pointer;" onclick="handlePlayerClick()"></div>
+
+                            <!-- دکمه پِلی درخشان برای شروع تعامل و رفع مشکل اتوپلی -->
+                            <div class="live-play-overlay" id="livePlayBtnOverlay" onclick="hidePlayOverlay(this); event.stopPropagation();">
+                                <div class="play-icon-circle">
+                                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                            </div>
+                            
                             <iframe id="liveAparatIframe" 
                                     src="https://www.aparat.com/embed/live/irdadgostar" 
                                     scrolling="no" 
@@ -1067,19 +1113,21 @@
                             </div>
                         </div>
 
-                        <!-- کنترل‌های پلیر -->
+                        <!-- کنترل‌های پلیر: چینش دقیق و مستقل چپ و راست برای جلوگیری از تداخل (دستور 1) -->
                         <div class="player-overlay-bottom">
-                            <div style="display: flex; gap: 8px;">
-                                <button class="glass-action-btn" id="audioToggleBtn" onclick="toggleAudioOnly()">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-                                    <span>فقط صدا</span>
-                                </button>
-                                
-                                <button class="glass-action-btn" onclick="toggleFullscreenLandscape()">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
-                                    <span>تمام‌صفحه افقی</span>
-                                </button>
-                            </div>
+                            
+                            <!-- سمت چپ: دکمه فقط صدا (در RTL انتهای خط سمت چپ قرار می‌گیرد) -->
+                            <button class="glass-action-btn" id="audioToggleBtn" onclick="toggleAudioOnly(); event.stopPropagation();">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                                <span>فقط صدا</span>
+                            </button>
+                            
+                            <!-- سمت راست: دکمه تمام‌صفحه -->
+                            <button class="glass-action-btn" id="fsToggleBtn" onclick="toggleFullscreenLandscape(); event.stopPropagation();">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                                <span>تمام‌صفحه افقی</span>
+                            </button>
+                            
                         </div>
                     </div>
 
@@ -1100,7 +1148,7 @@
                 </div>
             </section>
 
-            <!-- ===================== تب ۳: آموزش‌ها (فقط ویدئوها و مقالات) ===================== -->
+            <!-- ===================== تب ۳: آموزش‌ها ===================== -->
             <section id="tab-education" class="view-screen">
                 
                 <!-- نوار زیرتب‌ها -->
@@ -1113,109 +1161,116 @@
                     
                     <!-- پنل ویدئوها -->
                     <div id="subpane-videos" class="edu-pane active">
+                        <div class="feed-items-wrapper">
+                            <div class="video-item-box">
+                                <div class="aparat-embed-container">
+                                    <iframe 
+                                        src="https://www.aparat.com/video/video/embed/videohash/arx5x3s/vt/frame?responsive=yes" 
+                                        title="آموزش تخصصی بلوغ عاطفی و رفتاری" 
+                                        allowfullscreen="true" 
+                                        webkitallowfullscreen="true" 
+                                        mozallowfullscreen="true"
+                                        loading="lazy">
+                                    </iframe>
+                                </div>
+                                <div class="video-item-info">
+                                    <div class="video-item-badge">آموزش تخصصی</div>
+                                    <h3 class="video-item-title">نشانه‌های آمادگی روانی و بلوغ برای ازدواج</h3>
+                                    <p class="video-item-desc">راهنمای سنجش ثبات هیجانی، مسئولیت‌پذیری و استقلال روانی فرد قبل از ورود به تعهد پایدار زناشویی.</p>
+                                    
+                                    <div class="video-action-row">
+                                        <button class="btn-action-pill" onclick="copyDirectLink('آموزش بلوغ ازدواج', 'نشانه‌های آمادگی روانی و بلوغ برای ازدواج در کلاس مجردها:', 'https://www.aparat.com/v/arx5x3s', 'لینک آموزش')">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                            <span>کپی لینک</span>
+                                        </button>
+                                        <button class="btn-action-pill" onclick="openShareModal('آموزش بلوغ ازدواج', 'نشانه‌های آمادگی روانی و بلوغ برای ازدواج در کلاس مجردها:', 'https://www.aparat.com/v/arx5x3s')">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                            <span>ارسال</span>
+                                        </button>
+                                        <a class="btn-action-pill" href="https://www.aparat.com/v/arx5x3s" target="_blank" rel="noopener">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                            <span>مشاهده</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="video-item-box">
+                                <div class="aparat-embed-container">
+                                    <iframe 
+                                        src="https://www.aparat.com/video/video/embed/videohash/bot2n4c/vt/frame?responsive=yes" 
+                                        title="فنون برقراری ارتباط مؤثر در جلسات آشنایی" 
+                                        allowfullscreen="true" 
+                                        webkitallowfullscreen="true" 
+                                        mozallowfullscreen="true"
+                                        loading="lazy">
+                                    </iframe>
+                                </div>
+                                <div class="video-item-info">
+                                    <div class="video-item-badge">مهارت‌های ارتباطی</div>
+                                    <h3 class="video-item-title">تکنیک‌های گفت‌وگوی مؤثر در جلسات خواستگاری</h3>
+                                    <p class="video-item-desc">نحوه پرسشگری هوشمندانه، بازخورددهی کلامی و کشف شفاف اولویت‌ها و خط قرمزها در دوره آشنایی.</p>
+                                    
+                                    <div class="video-action-row">
+                                        <button class="btn-action-pill" onclick="copyDirectLink('ارتباط مؤثر در آشنایی', 'تکنیک‌های گفت‌وگوی مؤثر در جلسات خواستگاری:', 'https://www.aparat.com/v/bot2n4c', 'لینک آموزش')">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                            <span>کپی لینک</span>
+                                        </button>
+                                        <button class="btn-action-pill" onclick="openShareModal('ارتباط مؤثر در آشنایی', 'تکنیک‌های گفت‌وگوی مؤثر در جلسات خواستگاری:', 'https://www.aparat.com/v/bot2n4c')">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                            <span>ارسال</span>
+                                        </button>
+                                        <a class="btn-action-pill" href="https://www.aparat.com/v/bot2n4c" target="_blank" rel="noopener">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                            <span>مشاهده</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- پایان رپر آیتم‌ها -->
                         
-                        <div class="video-item-box" style="margin-bottom: 16px;">
-                            <div class="aparat-embed-container">
-                                <iframe 
-                                    src="https://www.aparat.com/video/video/embed/videohash/arx5x3s/vt/frame?responsive=yes" 
-                                    title="آموزش تخصصی بلوغ عاطفی و رفتاری" 
-                                    allowfullscreen="true" 
-                                    webkitallowfullscreen="true" 
-                                    mozallowfullscreen="true"
-                                    loading="lazy">
-                                </iframe>
-                            </div>
-                            <div class="video-item-info">
-                                <div class="video-item-badge">آموزش تخصصی</div>
-                                <h3 class="video-item-title">نشانه‌های آمادگی روانی و بلوغ برای ازدواج</h3>
-                                <p class="video-item-desc">راهنمای سنجش ثبات هیجانی، مسئولیت‌پذیری و استقلال روانی فرد قبل از ورود به تعهد پایدار زناشویی.</p>
-                                
-                                <div class="video-action-row">
-                                    <button class="btn-action-pill" onclick="copyDirectLink('آموزش بلوغ ازدواج', 'نشانه‌های آمادگی روانی و بلوغ برای ازدواج در کلاس مجردها:', 'https://www.aparat.com/v/arx5x3s', 'لینک آموزش')">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                                        <span>کپی لینک</span>
-                                    </button>
-                                    <button class="btn-action-pill" onclick="openShareModal('آموزش بلوغ ازدواج', 'نشانه‌های آمادگی روانی و بلوغ برای ازدواج در کلاس مجردها:', 'https://www.aparat.com/v/arx5x3s')">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                                        <span>ارسال</span>
-                                    </button>
-                                    <a class="btn-action-pill" href="https://www.aparat.com/v/arx5x3s" target="_blank" rel="noopener">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                        <span>مشاهده</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="video-item-box">
-                            <div class="aparat-embed-container">
-                                <iframe 
-                                    src="https://www.aparat.com/video/video/embed/videohash/bot2n4c/vt/frame?responsive=yes" 
-                                    title="فنون برقراری ارتباط مؤثر در جلسات آشنایی" 
-                                    allowfullscreen="true" 
-                                    webkitallowfullscreen="true" 
-                                    mozallowfullscreen="true"
-                                    loading="lazy">
-                                </iframe>
-                            </div>
-                            <div class="video-item-info">
-                                <div class="video-item-badge">مهارت‌های ارتباطی</div>
-                                <h3 class="video-item-title">تکنیک‌های گفت‌وگوی مؤثر در جلسات خواستگاری</h3>
-                                <p class="video-item-desc">نحوه پرسشگری هوشمندانه، بازخورددهی کلامی و کشف شفاف اولویت‌ها و خط قرمزها در دوره آشنایی.</p>
-                                
-                                <div class="video-action-row">
-                                    <button class="btn-action-pill" onclick="copyDirectLink('ارتباط مؤثر در آشنایی', 'تکنیک‌های گفت‌وگوی مؤثر در جلسات خواستگاری:', 'https://www.aparat.com/v/bot2n4c', 'لینک آموزش')">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                                        <span>کپی لینک</span>
-                                    </button>
-                                    <button class="btn-action-pill" onclick="openShareModal('ارتباط مؤثر در آشنایی', 'تکنیک‌های گفت‌وگوی مؤثر در جلسات خواستگاری:', 'https://www.aparat.com/v/bot2n4c')">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                                        <span>ارسال</span>
-                                    </button>
-                                    <a class="btn-action-pill" href="https://www.aparat.com/v/bot2n4c" target="_blank" rel="noopener">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                        <span>مشاهده</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
+                        <!-- دکمه موارد بیشتر ویدیوها -->
+                        <a href="#" onclick="alert('منتظر دستور شما برای لینک ویدیوها هستم.'); return false;" class="btn-load-more">موارد بیشتر</a>
                     </div>
 
                     <!-- پنل مقالات -->
                     <div id="subpane-articles" class="edu-pane">
-                        
-                        <div class="lux-card">
-                            <div class="lux-card-media">
-                                <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=700&q=80" alt="پرسش‌های خواستگاری" loading="lazy">
-                                <span class="lux-card-overlay-badge">راهنمای خواستگاری</span>
-                            </div>
-                            <div class="lux-card-body">
-                                <span style="font-size: 0.68rem; color: var(--ig-gold); font-weight: 800;">پژوهش و راهنما</span>
-                                <h4 class="lux-card-title" style="margin-top: 4px;">۱۰ سؤال کلیدی در جلسات اول و دوم خواستگاری</h4>
-                                <p class="lux-card-desc">نحوه پرسشگری هوشمندانه برای سنجش استقلال فکری، بلوغ روانی و ثبات شخصیتی طرف مقابل در جلسات آشنایی.</p>
-                                <div class="lux-card-footer">
-                                    <span style="font-size:0.72rem; color:var(--ig-muted)">زمان مطالعه: ۵ دقیقه</span>
-                                    <a href="https://eitaa.com/Dr_m_afsharmanesh" target="_blank" rel="noopener" class="btn-mini-action">مطالعه در ایتا</a>
+                        <div class="feed-items-wrapper">
+                            <div class="lux-card">
+                                <div class="lux-card-media">
+                                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=700&q=80" alt="پرسش‌های خواستگاری" loading="lazy">
+                                    <span class="lux-card-overlay-badge">راهنمای خواستگاری</span>
+                                </div>
+                                <div class="lux-card-body">
+                                    <span style="font-size: 0.68rem; color: var(--ig-gold); font-weight: 800;">پژوهش و راهنما</span>
+                                    <h4 class="lux-card-title" style="margin-top: 4px;">۱۰ سؤال کلیدی در جلسات اول و دوم خواستگاری</h4>
+                                    <p class="lux-card-desc">نحوه پرسشگری هوشمندانه برای سنجش استقلال فکری، بلوغ روانی و ثبات شخصیتی طرف مقابل در جلسات آشنایی.</p>
+                                    <div class="lux-card-footer">
+                                        <span style="font-size:0.72rem; color:var(--ig-muted)">زمان مطالعه: ۵ دقیقه</span>
+                                        <a href="https://eitaa.com/Dr_m_afsharmanesh" target="_blank" rel="noopener" class="btn-mini-action">مطالعه در ایتا</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="lux-card">
-                            <div class="lux-card-media">
-                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=80" alt="نشانه‌های هشدار در آشنایی" loading="lazy">
-                                <span class="lux-card-overlay-badge">روانشناسی روابط</span>
-                            </div>
-                            <div class="lux-card-body">
-                                <span style="font-size: 0.68rem; color: var(--ig-live); font-weight: 800;">روانشناسی خانواده</span>
-                                <h4 class="lux-card-title" style="margin-top: 4px;">نشانه‌های هشداردهنده (Red Flags) در دوران آشنایی</h4>
-                                <p class="lux-card-desc">بررسی نشانه‌های پنهان وابستگی افراطی، رفتارهای کنترل‌گرانه، بدبینی و عدم آمادگی روانی طرفین برای پیوند پایدار.</p>
-                                <div class="lux-card-footer">
-                                    <span style="font-size:0.72rem; color:var(--ig-muted)">زمان مطالعه: ۷ دقیقه</span>
-                                    <a href="https://eitaa.com/Dr_m_afsharmanesh" target="_blank" rel="noopener" class="btn-mini-action">مطالعه در ایتا</a>
+                            <div class="lux-card">
+                                <div class="lux-card-media">
+                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=80" alt="نشانه‌های هشدار در آشنایی" loading="lazy">
+                                    <span class="lux-card-overlay-badge">روانشناسی روابط</span>
+                                </div>
+                                <div class="lux-card-body">
+                                    <span style="font-size: 0.68rem; color: var(--ig-live); font-weight: 800;">روانشناسی خانواده</span>
+                                    <h4 class="lux-card-title" style="margin-top: 4px;">نشانه‌های هشداردهنده (Red Flags) در دوران آشنایی</h4>
+                                    <p class="lux-card-desc">بررسی نشانه‌های پنهان وابستگی افراطی، رفتارهای کنترل‌گرانه، بدبینی و عدم آمادگی روانی طرفین برای پیوند پایدار.</p>
+                                    <div class="lux-card-footer">
+                                        <span style="font-size:0.72rem; color:var(--ig-muted)">زمان مطالعه: ۷ دقیقه</span>
+                                        <a href="https://eitaa.com/Dr_m_afsharmanesh" target="_blank" rel="noopener" class="btn-mini-action">مطالعه در ایتا</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> <!-- پایان رپر آیتم‌ها -->
+                        
+                        <!-- دکمه موارد بیشتر مقالات (لینک ایتا بر اساس دستور شما) -->
+                        <a href="https://eitaa.com/Dr_m_afsharmanesh" target="_blank" rel="noopener" class="btn-load-more">موارد بیشتر</a>
                     </div>
 
                 </div>
@@ -1314,7 +1369,7 @@
             <!-- ناحیه ضربه سمت چپ: حرکت به بعدی در حالت راست‌چین -->
             <div class="story-tap-zone story-tap-left" onclick="storyNext()"></div>
 
-            <!-- کارت داینامیک استوری (تم روشن و شفاف اعمال شد) -->
+            <!-- کارت داینامیک استوری -->
             <div class="story-slide-card" id="storySlideCard">
                 <div class="story-slide-icon-box" id="storyCardIcon">
                     <!-- آیکون تزریقی -->
@@ -1373,11 +1428,81 @@
             btn.querySelector('span').innerText = isActive ? 'تصویر و صدا' : 'فقط صدا';
         }
 
-        // ۴. تمام‌صفحه افقی
+        // ======================== منطق دکمه‌های کنترل ویدیو (دستور ۱ و ۳) ========================
+        let controlsTimeout;
+        let isLiveStarted = false; // دستور ۳: متغیر برای بررسی کلیک شدن دکمه پلی
+
+        // وقتی روی فضای ویدیو کلیک می‌شود
+        function handlePlayerClick() {
+            if (!isLiveStarted) return; // اگر دکمه پلی زده نشده، کلیک اثری ندارد و دکمه‌ها می‌مانند
+            
+            wakeUpControls();
+            
+            // لایه شفاف را موقتاً غیرفعال می‌کنیم تا کاربر بتواند ویدیو زیرین را پاز/پلی کند
+            const catcher = document.getElementById('clickCatcher');
+            if(catcher) {
+                catcher.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    if(isLiveStarted) catcher.style.pointerEvents = 'auto'; // پس از ۳ ثانیه دوباره فعال می‌شود
+                }, 3000);
+            }
+        }
+
+        function wakeUpControls() {
+            const topOverlay = document.querySelector('.player-overlay-top');
+            const bottomOverlay = document.querySelector('.player-overlay-bottom');
+
+            if (topOverlay) topOverlay.style.opacity = '1';
+            if (bottomOverlay) {
+                bottomOverlay.style.opacity = '1';
+                bottomOverlay.style.pointerEvents = 'auto'; 
+            }
+
+            clearTimeout(controlsTimeout);
+            
+            // دستور ۳: فقط در صورتی دکمه‌ها را بعد از ۳ ثانیه پنهان کن که لایو استارت شده باشد
+            if (isLiveStarted) {
+                controlsTimeout = setTimeout(() => {
+                    if (topOverlay) topOverlay.style.opacity = '0';
+                    if (bottomOverlay) {
+                        bottomOverlay.style.opacity = '0';
+                        bottomOverlay.style.pointerEvents = 'none'; 
+                    }
+                }, 3000);
+            }
+        }
+        
+        // اجرای اولیه: دکمه‌ها ظاهر می‌شوند ولی چون isLiveStarted فالس است، پنهان نمی‌شوند
+        window.addEventListener('DOMContentLoaded', wakeUpControls);
+
+        // پنهان کردن دکمه پلی اولیه لایو و استارت شدن سیستم
+        function hidePlayOverlay(el) {
+            isLiveStarted = true; // دستور ۳: حالا لایو شروع شد!
+            el.style.opacity = '0';
+            setTimeout(() => {
+                el.style.display = 'none';
+            }, 300);
+            
+            // برداشتن موقت لایه کلیک‌گیر برای اینکه تاچ اول به درستی روی ویدیو بنشیند
+            const catcher = document.getElementById('clickCatcher');
+            if(catcher) {
+                catcher.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    catcher.style.pointerEvents = 'auto';
+                }, 3000);
+            }
+
+            wakeUpControls(); // فراخوانی برای شروع تایمر ۳ ثانیه‌ای محو شدن
+        }
+
+        // ======================== منطق دکمه تمام‌صفحه (دستور ۲ و رفع باگ پرش) ========================
         function toggleFullscreenLandscape() {
             const playerBox = document.getElementById('igPlayerBox');
+            
+            const isFs = document.fullscreenElement || document.webkitFullscreenElement || playerBox.classList.contains('fullscreen-landscape-fallback');
 
-            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            if (!isFs) {
+                // ورود به تمام‌صفحه
                 const requestFS = playerBox.requestFullscreen || playerBox.webkitRequestFullscreen || playerBox.msRequestFullscreen;
                 if (requestFS) {
                     requestFS.call(playerBox).then(() => {
@@ -1386,28 +1511,56 @@
                         }
                     }).catch(() => {
                         playerBox.classList.add('fullscreen-landscape-fallback');
+                        updateFullscreenButtonState();
                     });
                 } else {
                     playerBox.classList.add('fullscreen-landscape-fallback');
+                    updateFullscreenButtonState();
                 }
             } else {
+                // خروج از تمام‌صفحه (بدون ایجاد ارور خاموش در کنسول)
                 const exitFS = document.exitFullscreen || document.webkitExitFullscreen;
-                if (exitFS) exitFS.call(document);
+                if (exitFS && (document.fullscreenElement || document.webkitFullscreenElement)) {
+                    let promise = exitFS.call(document);
+                    if (promise) {
+                        promise.catch(err => console.warn("Fullscreen exit handled.", err));
+                    }
+                }
                 if (screen.orientation && screen.orientation.unlock) {
                     screen.orientation.unlock();
                 }
                 playerBox.classList.remove('fullscreen-landscape-fallback');
+                updateFullscreenButtonState();
             }
         }
 
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) {
-                document.getElementById('igPlayerBox').classList.remove('fullscreen-landscape-fallback');
+        // بررسی رویداد فول‌اسکرین بومی سیستم (برای وقتی که با دکمه بازگشت گوشی خارج میشویم)
+        document.addEventListener('fullscreenchange', updateFullscreenButtonState);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenButtonState);
+
+        // دستور ۲: تغییر ظاهر دکمه تمام‌صفحه به «برگشت به حالت قبل»
+        function updateFullscreenButtonState() {
+            const fsBtn = document.getElementById('fsToggleBtn');
+            const playerBox = document.getElementById('igPlayerBox');
+            
+            const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || playerBox.classList.contains('fullscreen-landscape-fallback');
+
+            if (!isFullscreen) {
+                // خارج شدیم از تمام صفحه - بازگشت دکمه به حالت اولیه
+                playerBox.classList.remove('fullscreen-landscape-fallback');
                 if (screen.orientation && screen.orientation.unlock) {
                     screen.orientation.unlock();
                 }
+                if (fsBtn) {
+                    fsBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg><span>تمام‌صفحه افقی</span>`;
+                }
+            } else {
+                // وارد تمام صفحه شدیم - تغییر دکمه به خروج
+                if (fsBtn) {
+                    fsBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg><span>برگشت به حالت قبل</span>`;
+                }
             }
-        });
+        }
 
         // ======================== ۶. سیستم استوری‌های تعاملی ۴گانه ========================
         const storiesData = [
@@ -1516,7 +1669,7 @@
             }
         }
 
-        // پشتیبانی از کشیدن (Swipe) لمسی راست و چپ برای تغییر استوری بهینه شده برای فارسی (راست‌چین)
+        // پشتیبانی از کشیدن (Swipe) لمسی راست و چپ برای تغییر استوری
         let touchStartX = 0;
         let touchEndX = 0;
         const storyBodyWrap = document.getElementById('storyBodyWrap');
@@ -1533,10 +1686,8 @@
         function handleStorySwipe() {
             const swipeDistance = touchEndX - touchStartX;
             if (swipeDistance > 45) {
-                // کشیدن به راست: در حالت فارسی چون محتوا از راست میاد، یعنی رفتن به استوری بعدی
                 storyNext();
             } else if (swipeDistance < -45) {
-                // کشیدن به چپ: در حالت فارسی یعنی برگشتن به قبلی
                 storyPrev();
             }
         }
@@ -1580,7 +1731,6 @@
             });
         }
 
-        // تابع بروزرسانی شده برای دستور کپی کامل که شامل عنوان، متن و لینک است
         function copyDirectLink(title, desc, url, label) {
             const fullText = `${title}\n${desc}\n${url}`;
             navigator.clipboard.writeText(fullText).then(() => {
