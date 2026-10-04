@@ -730,8 +730,8 @@
                     <h1>مسیر زندگی مشترک و فردی خود را <br><span>آگاهانه</span> بسازید</h1>
                     <p>مرکز تخصصی سبک زندگی اسلامی، استعدادیابی و راهنمایی پیش از ازدواج. همراه شما برای ساختن آینده‌ای روشن، مبتنی بر شناخت و مهارت.</p>
                     <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: flex-start;">
-                        <button onclick="openModal()" class="btn btn-primary">ثبت درخواست مشاوره</button>
-                        <a href="#services" class="btn btn-accent">آشنایی با بخش‌ها</a>
+                        <button onclick="openModal()" class="btn btn-primary">وقت مشاوره</button>
+                        <a href="#services" class="btn btn-accent">خدمات</a>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -764,7 +764,22 @@
                 
                 <div class="services-grid">
                     
-                    <!-- 1. کلاس مجردها -->
+                    <!-- 1. وقت مشاوره -->
+                    <a href="javascript:void(0)" onclick="openModal()" class="service-card reveal">
+                        <div class="service-icon">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <h3>وقت مشاوره</h3>
+                        <p>رزرو نوبت مشاوره فردی، خانواده، پیش از ازدواج و کوچینگ توسعه فردی.</p>
+                        <div class="service-link-indicator">
+                            <span>باز کردن فرم رزرو</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </div>
+                    </a>
+
+                    <!-- 2. کلاس مجردها -->
                     <a href="/toranj/ezdevaj" class="service-card reveal">
                         <div class="service-icon">
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -779,39 +794,7 @@
                         </div>
                     </a>
 
-                    <!-- 2. استعدادیابی (لینک به estedadkade.ir طبق دستور شماره ۹) -->
-                    <a href="https://estedadkade.ir" target="_blank" rel="noopener" class="service-card reveal">
-                        <div class="service-icon">
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"/>
-                                <circle cx="12" cy="12" r="6"/>
-                                <circle cx="12" cy="12" r="2"/>
-                            </svg>
-                        </div>
-                        <h3>استعدادیابی</h3>
-                        <p>کشف دقیق توانمندی‌های نهفته، رغبت‌سنجی شغلی و تحصیلی برای مسیر رشد فردی.</p>
-                        <div class="service-link-indicator">
-                            <span>ورود به سامانه استعدادکده</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                        </div>
-                    </a>
-
-                    <!-- 3. وقت مشاوره -->
-                    <a href="javascript:void(0)" onclick="openModal()" class="service-card reveal">
-                        <div class="service-icon">
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                            </svg>
-                        </div>
-                        <h3>درخواست وقت مشاوره</h3>
-                        <p>رزرو نوبت مشاوره فردی، خانواده، پیش از ازدواج و کوچینگ توسعه فردی.</p>
-                        <div class="service-link-indicator">
-                            <span>باز کردن فرم رزرو</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                        </div>
-                    </a>
-
-                    <!-- 4. دوره‌ها -->
+                    <!-- 3. دوره‌های آموزشی -->
                     <a href="/toranj/kargah" class="service-card reveal">
                         <div class="service-icon">
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -827,23 +810,7 @@
                         </div>
                     </a>
 
-                    <!-- 5. مقالات -->
-                    <a href="/toranj/maqale" class="service-card reveal">
-                        <div class="service-icon">
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                            </svg>
-                        </div>
-                        <h3>مقالات و پژوهش‌ها</h3>
-                        <p>بانک مقالات کاربردی در حوزه روانشناسی اسلامی، خانواده و علوم تربیتی.</p>
-                        <div class="service-link-indicator">
-                            <span>مطالعه مقالات</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                        </div>
-                    </a>
-
-                    <!-- 6. تماس -->
+                    <!-- 4. ارتباط با ترنج -->
                     <a href="#contact" class="service-card reveal">
                         <div class="service-icon">
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -1084,7 +1051,11 @@
                     <option value="مشاوره پیش از ازدواج">مشاوره پیش از ازدواج</option>
                     <option value="استعدادیابی">استعدادیابی</option>
                     <option value="مشاوره فردی / خانواده">مشاوره فردی / خانواده</option>
-                    <option value="کلاس مجردها">کلاس مجردها</option>
+                </select>
+                <select id="consultMode">
+                    <option value="" disabled selected>نحوه برگزاری مشاوره را انتخاب کنید</option>
+                    <option value="حضوری">حضوری</option>
+                    <option value="مجازی">مجازی</option>
                 </select>
                 <button class="btn btn-accent" style="width:100%;" onclick="submitConsultForm()">ارسال پیامک نوبت</button>
                 <p class="form-note">
@@ -1204,18 +1175,20 @@
             const nameEl = document.getElementById('fullName');
             const phoneEl = document.getElementById('phone');
             const typeEl = document.getElementById('consultType');
+            const modeEl = document.getElementById('consultMode');
 
             const name = (nameEl && nameEl.value.trim()) || '';
             const phone = (phoneEl && phoneEl.value.trim()) || '';
             const type = (typeEl && typeEl.value) || '';
+            const mode = (modeEl && modeEl.value) || '';
 
-            if (!name || !phone || !type) {
-                alert('لطفاً نام، شماره موبایل و نوع مشاوره را کامل وارد کنید.');
+            if (!name || !phone || !type || !mode) {
+                alert('لطفاً نام، شماره موبایل، نوع مشاوره و نحوه برگزاری را کامل وارد کنید.');
                 return;
             }
 
-            // متن پیام مطابق دقیق با دستور ۲
-            const body = `سلام. مشخصات جهت اخذ وقت مشاوره:\nنام: ${name}\nشماره تماس: ${phone}\nنوع مشاوره: ${type}`;
+            // متن پیام مطابق دقیق با دستور ۲ و افزودن نحوه برگزاری
+            const body = `سلام. مشخصات جهت اخذ وقت مشاوره:\nنام: ${name}\nشماره تماس: ${phone}\nنوع مشاوره: ${type}\nنحوه برگزاری: ${mode}`;
             const targetPhone = '09960808353';
 
             // کپی متن به حافظه موقت (Clipboard) جهت اطمینان در صورتی که وب‌ویو مرورگر پیامک را قفل کند
@@ -1256,6 +1229,7 @@
                 if (nameEl) nameEl.value = '';
                 if (phoneEl) phoneEl.value = '';
                 if (typeEl) typeEl.value = '';
+                if (modeEl) modeEl.value = '';
             }, 900);
         }
 
@@ -1315,4 +1289,4 @@
         }
     </script>
 </body>
-</html>
+</html>   
